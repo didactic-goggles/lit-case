@@ -2,36 +2,21 @@ import {LitElement, css, html} from 'lit';
 import {t, updateWhenLocaleChanges, localeManager} from '../utils/i18n.js';
 import '../components/ui/button/index.js';
 import '../components/language-switcher.js';
+import '../components/ui/icon/index.js';
 
 export class LitHeader extends LitElement {
-  static properties = {
-    currentPath: {type: String},
-  };
   static styles = css`
-    .container {
-      width: 100%;
-      margin: 0 auto;
-      padding: 0 1rem;
-      max-width: calc(100vw - 2rem);
-    }
-
-    @media (min-width: 1200px) {
-      .container {
-        max-width: 1140px;
-      }
-    }
-
     header {
-      background-color: var(--background);
+      background-color: var(--header);
       color: var(--text);
       position: sticky;
       top: 0;
       z-index: 100;
+      height: 4rem;
       display: flex;
       align-items: center;
-      width: 100%;
       gap: 1rem;
-      height: 4rem;
+      padding: 0 1rem;
     }
 
     label {
@@ -76,6 +61,25 @@ export class LitHeader extends LitElement {
       }
     }
 
+    #link-logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    #link-logo img {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.5rem;
+    }
+
+    #link-logo span {
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+
     .menu-container {
       flex: 1;
       display: flex;
@@ -86,34 +90,40 @@ export class LitHeader extends LitElement {
 
     nav {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
-      gap: 1rem;
+      gap: 0.5rem;
       flex: 1;
     }
 
     nav a {
       color: var(--primary);
       text-decoration: none;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem;
       border-radius: 0.5rem;
-      transition: all 0.3s ease;
+      transition: opacity 0.3s ease;
+      opacity: 0.5;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     nav a:hover {
-      background-color: var(--primary);
-      color: var(--primary-foreground);
+      opacity: 0.75;
     }
 
     nav a[data-state='active'] {
-      background-color: var(--primary);
-      color: var(--primary-foreground);
+      opacity: 1;
     }
 
     lit-language-switcher {
       margin-left: auto;
     }
   `;
+
+  static properties = {
+    currentPath: {type: String},
+  };
 
   constructor() {
     super();
@@ -129,6 +139,8 @@ export class LitHeader extends LitElement {
   setupRouterListener() {
     this.handleLocationChange = (event) => {
       this.currentPath = event.detail.location.pathname;
+
+      this.closeMobileMenu();
     };
 
     window.addEventListener(
@@ -151,50 +163,31 @@ export class LitHeader extends LitElement {
     localeManager.setLocale(locale);
   }
 
+  closeMobileMenu() {
+    const mobileMenuToggle = this.shadowRoot.querySelector(
+      '#mobile-menu-toggle'
+    );
+
+    if (mobileMenuToggle) {
+      mobileMenuToggle.checked = false;
+    }
+  }
+
   render() {
     return html`
-      <header class="container">
-        <a href="/">
-          <svg
+      <header>
+        <a href="/" aria-label="ING Test Case" id="link-logo">
+          <img
+            src="./public/assets/images/logo.png"
+            alt="Logo"
             width="50"
             height="50"
-            viewBox="0 0 50 50"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <circle cx="25" cy="25" r="24" stroke="gray" stroke-width="2" />
-          </svg>
+          />
+
+          <span>ING</span>
         </a>
         <label for="mobile-menu-toggle">
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M3 12H21"
-              stroke="gray"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M3 6H21"
-              stroke="gray"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-            <path
-              d="M3 18H21"
-              stroke="gray"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
-          </svg>
+          <lit-icon name="menu" />
 
           <input type="checkbox" id="mobile-menu-toggle" />
         </label>
@@ -204,15 +197,19 @@ export class LitHeader extends LitElement {
             <a
               href="/"
               data-state=${this.currentPath === '/' ? 'active' : 'inactive'}
-              >${t('header.home')}</a
             >
+              <lit-icon name="user"></lit-icon>
+              ${t('header.employees')}
+            </a>
             <a
-              href="/employees"
-              data-state=${this.currentPath === '/employees'
+              href="/employees/create"
+              data-state=${this.currentPath === '/employees/create'
                 ? 'active'
                 : 'inactive'}
-              >${t('header.employees')}</a
             >
+              <lit-icon name="plus"></lit-icon>
+              ${t('header.addNew')}
+            </a>
           </nav>
 
           <lit-language-switcher></lit-language-switcher>

@@ -3,6 +3,7 @@ import './layout/header.js';
 import './layout/main.js';
 import './layout/footer.js';
 import {localeManager} from './utils/i18n.js';
+import './context/employee.js';
 
 export class LitIndex extends LitElement {
   constructor() {
@@ -12,9 +13,13 @@ export class LitIndex extends LitElement {
 
   render() {
     return html`
-      <lit-header></lit-header>
-      <lit-main></lit-main>
-      <lit-footer></lit-footer>
+      <employee-context-provider>
+        <lit-header></lit-header>
+
+        <lit-main></lit-main>
+        
+        <lit-footer></lit-footer>
+      </employee-context-provider>
     `;
   }
 }

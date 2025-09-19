@@ -1,15 +1,17 @@
 import {LitElement, html} from 'lit';
-import employees from '../data/employees.js';
 import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
 import './ui/table/index.js';
 import './employee-edit-dialog.js';
 import './ui/alert-dialog/index.js';
 import './ui/toggle-group/index.js';
 import {getSearchFilters, setSearchFilters} from '../utils/search-filters.js';
+import {ContextConsumer} from '@lit/context';
+import {employeeContext} from '../context/employee.js';
 
 export class EmployeeList extends LitElement {
+  _employeeContext = new ContextConsumer(this, {context: employeeContext});
+
   static properties = {
-    data: {type: Array},
     columns: {type: Array},
     selectedEmployee: {type: Object},
     openEditDialog: {type: Boolean},
@@ -18,7 +20,6 @@ export class EmployeeList extends LitElement {
 
   constructor() {
     super();
-    this.data = [...employees];
     this.selectedEmployee = null;
     this.openEditDialog = false;
     this.openDeleteDialog = false;
@@ -123,16 +124,14 @@ export class EmployeeList extends LitElement {
   }
 
   onDeleteDialogConfirm() {
-    this.data = this.data.filter(
-      (employee) => employee.id !== this.selectedEmployee.id
-    );
+    this._employeeContext.value.deleteEmployee(this.selectedEmployee.id);
     this.selectedEmployee = null;
     this.openDeleteDialog = false;
   }
 
   render() {
     return html`<lit-table
-        .data=${this.data}
+        .data=${this._employeeContext.value.employees}
         .columns=${this.getColumns()}
         searchable
         .searchOptions=${this.searchOptions}

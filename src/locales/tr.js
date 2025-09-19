@@ -1,7 +1,7 @@
 const tr = {
   header: {
-    home: 'Ana Sayfa',
     employees: 'Çalışanlar',
+    addNew: 'Yeni Ekle',
   },
   home: {},
   components: {
