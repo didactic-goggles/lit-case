@@ -91,12 +91,21 @@ export class Table extends LitElement {
     return rowData;
   }
 
+  _handleSearchValueChanged(event) {
+    console.log("handleSearchValueChanged", event);
+    this.searchValue = event.detail.value;
+    this.dispatchEvent(new CustomEvent('search-value-changed', {
+      detail: {value: this.searchValue}
+    }));
+  }
+
   render() {
     return html` <div class="table-container">
       <lit-table-header
         .searchable=${this.searchable}
         .searchValue=${this.searchValue}
         .searchPlaceholder=${this.searchPlaceholder}
+        @search-value-changed=${this._handleSearchValueChanged}
       >
         <slot name="header-actions" slot="header-actions"></slot>
       </lit-table-header>

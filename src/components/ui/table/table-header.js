@@ -19,6 +19,9 @@ export class TableHeader extends LitElement {
 
   _handleInput(event) {
     this.searchValue = event.target.value;
+    this.dispatchEvent(new CustomEvent('search-value-changed', {
+      detail: {value: this.searchValue}
+    }));
   }
 
   render() {

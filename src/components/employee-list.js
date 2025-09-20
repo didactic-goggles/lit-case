@@ -1,14 +1,17 @@
 import {LitElement, html} from 'lit';
 import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
-import {getSearchFilters, setSearchFilters} from '../utils/search-filters.js';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../context/employee.js';
 import {formatDate} from '../utils/format-date.js';
 import './ui/table/index.js';
 import './ui/toggle-group/index.js';
 import './ui/alert-dialog/index.js';
+import {debounce} from '../utils/debounce.js';
 export class EmployeeList extends LitElement {
-  _employeeContext = new ContextConsumer(this, {context: employeeContext});
+  _employeeContext = new ContextConsumer(this, {
+    context: employeeContext,
+    subscribe: true,
+  });
 
   static properties = {
     columns: {type: Array},
@@ -106,13 +109,7 @@ export class EmployeeList extends LitElement {
   }
 
   onToggleGroupChange(event) {
-    setSearchFilters('viewAs', event.detail.value);
-  }
-
-  onSearchFiltersChange(event) {
-    setSearchFilters('search', event.detail.value);
-
-    this._employeeContext.value.filterEmployees(event.detail.value);
+    this._employeeContext.value.onViewAsChange(event.detail.value);
   }
 
   onEmployeeDeleteClick(employee) {
@@ -120,22 +117,27 @@ export class EmployeeList extends LitElement {
   }
 
   render() {
+    console.log('render', this._employeeContext.value);
     return html`<lit-table
-        .data=${this.data}
-        .columns=${this.columns}
-        searchable
-        .searchValue=${this._employeeContext.value.searchValue}
-        .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
+      .data=${this.data}
+      .columns=${this.columns}
+      searchable
+      .searchValue=${this._employeeContext.value.searchValue}
+      .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
+      @search-value-changed=${debounce(
+        (event) =>
+          this._employeeContext.value.onSearchValueChange(event.detail.value),
+        500
+      )}
+    >
+      <lit-toggle-group
+        .value=${this._employeeContext.value.viewAs}
+        .options=${this.toggleGroupOptions}
+        @change=${this.onToggleGroupChange}
+        slot="header-actions"
       >
-        <lit-toggle-group
-          .value=${getSearchFilters('viewAs') || 'table'}
-          .options=${this.toggleGroupOptions}
-          @change=${this.onToggleGroupChange}
-          slot="header-actions"
-        >
-        </lit-toggle-group>
-      </lit-table>
-      `;
+      </lit-toggle-group>
+    </lit-table> `;
   }
 }
 
