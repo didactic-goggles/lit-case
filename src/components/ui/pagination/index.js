@@ -11,6 +11,7 @@ export class Pagination extends LitElement {
       display: flex;
       gap: 1rem;
       align-items: center;
+      justify-content: center;
     }
   `;
 
@@ -68,9 +69,11 @@ export class Pagination extends LitElement {
 
   onPageClick(page) {
     if (page !== this.page) {
-      this.dispatchEvent(new CustomEvent('page-change', {
-        detail: { page }
-      }));
+      this.dispatchEvent(
+        new CustomEvent('page-change', {
+          detail: {page},
+        })
+      );
     }
   }
 
@@ -87,6 +90,10 @@ export class Pagination extends LitElement {
   }
 
   render() {
+    if (this.totalPages < 1) {
+      return html``;
+    }
+
     const pageNumbers = this.getPageNumbers();
     const showStartEllipsis = this.shouldShowStartEllipsis();
     const showEndEllipsis = this.shouldShowEndEllipsis();
@@ -103,13 +110,9 @@ export class Pagination extends LitElement {
       </lit-button>
 
       ${pageNumbers[0] > 1 ? this.renderPageButton(1) : ''}
-
       ${showStartEllipsis ? this.renderEllipsis() : ''}
-
-      ${pageNumbers.map(pageNum => this.renderPageButton(pageNum))}
-
+      ${pageNumbers.map((pageNum) => this.renderPageButton(pageNum))}
       ${showEndEllipsis ? this.renderEllipsis() : ''}
-
       ${pageNumbers[pageNumbers.length - 1] < this.totalPages
         ? this.renderPageButton(this.totalPages)
         : ''}

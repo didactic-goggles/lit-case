@@ -1,7 +1,7 @@
 import {LitElement, css, html} from 'lit';
 import '../input/index.js';
 
-export class TableHeader extends LitElement {
+export class CardGridHeader extends LitElement {
   static styles = css`
     :host {
       display: flex;
@@ -16,6 +16,13 @@ export class TableHeader extends LitElement {
     searchValue: {type: String},
     searchPlaceholder: {type: String},
   };
+
+  constructor() {
+    super();
+    this.search = true;
+    this.searchValue = '';
+    this.searchPlaceholder = '';
+  }
 
   _handleInput(event) {
     this.searchValue = event.target.value;
@@ -42,4 +49,4 @@ export class TableHeader extends LitElement {
   }
 }
 
-customElements.define('lit-table-header', TableHeader);
+customElements.define('lit-card-grid-header', CardGridHeader);

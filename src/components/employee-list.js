@@ -7,6 +7,10 @@ import './ui/table/index.js';
 import './ui/toggle-group/index.js';
 import './ui/alert-dialog/index.js';
 import {debounce} from '../utils/debounce.js';
+import './ui/card-grid/index.js';
+import './ui/card/index.js';
+import './employee-card.js';
+
 export class EmployeeList extends LitElement {
   _employeeContext = new ContextConsumer(this, {
     context: employeeContext,
@@ -30,41 +34,41 @@ export class EmployeeList extends LitElement {
       },
       {
         id: 'firstName',
-        header: t('components.employeesTable.columns.firstName'),
+        header: t('components.employeeList.columns.firstName'),
       },
       {
         id: 'lastName',
-        header: t('components.employeesTable.columns.lastName'),
+        header: t('components.employeeList.columns.lastName'),
       },
       {
         id: 'email',
-        header: t('components.employeesTable.columns.email'),
+        header: t('components.employeeList.columns.email'),
       },
       {
         id: 'phone',
-        header: t('components.employeesTable.columns.phone'),
+        header: t('components.employeeList.columns.phone'),
       },
       {
         id: 'department',
-        header: t('components.employeesTable.columns.department'),
+        header: t('components.employeeList.columns.department'),
       },
       {
         id: 'position',
-        header: t('components.employeesTable.columns.position'),
+        header: t('components.employeeList.columns.position'),
       },
       {
         id: 'dateOfBirth',
-        header: t('components.employeesTable.columns.dateOfBirth'),
+        header: t('components.employeeList.columns.dateOfBirth'),
         cell: (cellData) => formatDate(cellData),
       },
       {
         id: 'dateOfEmployment',
-        header: t('components.employeesTable.columns.dateOfEmployment'),
+        header: t('components.employeeList.columns.dateOfEmployment'),
         cell: (cellData) => formatDate(cellData),
       },
       {
         id: '',
-        header: t('components.employeesTable.columns.actions'),
+        header: t('components.employeeList.columns.actions'),
         cell: (row) =>
           html`<lit-button
               variant="text"
@@ -74,7 +78,7 @@ export class EmployeeList extends LitElement {
               <lit-icon name="edit"></lit-icon>
 
               <span class="sr-only"
-                >${t('components.employeesTable.columns.details')}</span
+                >${t('components.employeeList.columns.details')}</span
               >
             </lit-button>
             <lit-button
@@ -83,7 +87,7 @@ export class EmployeeList extends LitElement {
               size="icon"
             >
               <span class="sr-only"
-                >${t('components.employeesTable.columns.delete')}</span
+                >${t('components.employeeList.columns.delete')}</span
               >
               <lit-icon name="trash"></lit-icon>
             </lit-button>`,
@@ -120,31 +124,63 @@ export class EmployeeList extends LitElement {
     this._employeeContext.value.onPageChange(event.detail.page);
   }
 
+  renderListViewToggleGroup() {
+    return html`<lit-toggle-group
+      .value=${this._employeeContext.value.viewAs}
+      .options=${this.toggleGroupOptions}
+      @change=${this.onToggleGroupChange}
+    ></lit-toggle-group>`;
+  }
+
+  renderCardGrid(item) {
+    return html`<employee-card .employee=${item}></employee-card>`;
+  }
+
   render() {
-    return html`<lit-table
-      .data=${this.data}
-      .columns=${this.columns}
-      searchable
-      .searchValue=${this._employeeContext.value.searchValue}
-      .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
-      @search-value-changed=${debounce(
-        (event) =>
-          this._employeeContext.value.onSearchValueChange(event.detail.value),
-        500
-      )}
-      .pagination=${true}
-      .page=${this._employeeContext.value.pagination.page}
-      .totalPages=${this._employeeContext.value.pagination.totalPages}
-      @page-change=${this.onPageChange}
-    >
-      <lit-toggle-group
-        .value=${this._employeeContext.value.viewAs}
-        .options=${this.toggleGroupOptions}
-        @change=${this.onToggleGroupChange}
-        slot="header-actions"
-      >
-      </lit-toggle-group>
-    </lit-table> `;
+    console.log('render', this._employeeContext.value);
+    return html`
+      ${this._employeeContext.value.viewAs === 'table'
+        ? html`<lit-table
+            .data=${this.data}
+            .columns=${this.columns}
+            search
+            .searchValue=${this._employeeContext.value.searchValue}
+            .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
+            @search-value-changed=${debounce(
+              (event) =>
+                this._employeeContext.value.onSearchValueChange(
+                  event.detail.value
+                ),
+              500
+            )}
+            .pagination=${true}
+            .page=${this._employeeContext.value.pagination.page}
+            .totalPages=${this._employeeContext.value.pagination.totalPages}
+            @page-change=${this.onPageChange}
+          >
+            <div slot="header-actions">${this.renderListViewToggleGroup()}</div>
+          </lit-table> `
+        : html`<lit-card-grid
+            .data=${this.data}
+            .renderFunction=${this.renderCardGrid}
+            search
+            .searchValue=${this._employeeContext.value.searchValue}
+            .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
+            @search-value-changed=${debounce(
+              (event) =>
+                this._employeeContext.value.onSearchValueChange(
+                  event.detail.value
+                ),
+              500
+            )}
+            .pagination=${true}
+            .page=${this._employeeContext.value.pagination.page}
+            .totalPages=${this._employeeContext.value.pagination.totalPages}
+            @page-change=${this.onPageChange}
+          >
+            <div slot="header-actions">${this.renderListViewToggleGroup()}</div>
+          </lit-card-grid> `}
+    `;
   }
 }
 

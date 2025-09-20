@@ -7,11 +7,10 @@ export class LitCheckbox extends LitElement {
       appearance: none;
       background-color: var(--input-bg);
       margin: 0;
-      font: inherit;
       color: currentColor;
       width: 1.15em;
       height: 1.15em;
-      border: 0.15em solid var(--input-border);
+      border: 2px solid var(--input-border);
       border-radius: 0.25em;
       transform: translateY(-0.075em);
       display: grid;

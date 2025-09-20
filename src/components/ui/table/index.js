@@ -1,10 +1,11 @@
 import {css, html, LitElement} from 'lit';
 import './table-header.js';
-import './table-pagination.js';
-
+import '../pagination/index.js';
+import '../../empty.js';
+import '../checkbox/index.js';
 export class Table extends LitElement {
   static styles = css`
-    .table-container {
+    :host {
       display: flex;
       flex-direction: column;
       gap: 1rem;
@@ -12,6 +13,8 @@ export class Table extends LitElement {
 
     .table-scroll-container {
       overflow: hidden;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border);
     }
 
     .table {
@@ -23,7 +26,7 @@ export class Table extends LitElement {
       font-size: 0.875rem;
       width: 100%;
       border-collapse: collapse;
-      background-color: var(--background-table);
+      background-color: var(--table);
     }
 
     thead tr {
@@ -48,7 +51,7 @@ export class Table extends LitElement {
     }
 
     tbody tr:hover {
-      background-color: var(--accent);
+      background-color: var(--table-accent);
     }
 
     tbody tr:last-child {
@@ -105,13 +108,15 @@ export class Table extends LitElement {
   }
 
   _handlePageChange(event) {
-    this.dispatchEvent(new CustomEvent('page-change', {
-      detail: { page: event.detail.page },
-    }));
+    this.dispatchEvent(
+      new CustomEvent('page-change', {
+        detail: {page: event.detail.page},
+      })
+    );
   }
 
   render() {
-    return html` <div class="table-container">
+    return html`
       <lit-table-header
         .search=${this.search}
         .searchValue=${this.searchValue}
@@ -134,43 +139,50 @@ export class Table extends LitElement {
               </tr>
             </thead>
             <tbody>
-              ${this.data.map(
-                (row) =>
-                  html`<tr>
-                    ${this.columns.map(
-                      (column) =>
-                        html`<td>
-                          ${column.id === 'checkbox'
-                            ? html`<lit-checkbox></lit-checkbox>`
-                            : column.cell
-                            ? column.cell(
-                                this.getCellData(
-                                  this.getRowData(row, column),
-                                  column
-                                )
-                              )
-                            : this.getCellData(
-                                this.getRowData(row, column),
-                                column
-                              )}
-                        </td>`
-                    )}
+              ${this.data.length === 0
+                ? html`<tr>
+                    <td colspan="${this.columns.length}">
+                      <lit-empty></lit-empty>
+                    </td>
                   </tr>`
-              )}
+                : this.data.map(
+                    (row) =>
+                      html`<tr>
+                        ${this.columns.map(
+                          (column) =>
+                            html`<td>
+                              ${column.id === 'checkbox'
+                                ? html`<lit-checkbox></lit-checkbox>`
+                                : column.cell
+                                ? column.cell(
+                                    this.getCellData(
+                                      this.getRowData(row, column),
+                                      column
+                                    )
+                                  )
+                                : this.getCellData(
+                                    this.getRowData(row, column),
+                                    column
+                                  )}
+                            </td>`
+                        )}
+                      </tr>`
+                  )}
             </tbody>
           </table>
         </div>
       </div>
 
       ${this.pagination
-        ? html`<lit-table-pagination
-            .page=${this.page}
-            .totalPages=${this.totalPages}
-            @page-change=${this._handlePageChange}
-          >
-          </lit-table-pagination>`
+        ? html`
+            <lit-pagination
+              .page=${this.page}
+              .totalPages=${this.totalPages}
+              @page-change=${this._handlePageChange}
+            />
+          `
         : ''}
-    </div>`;
+    `;
   }
 }
 

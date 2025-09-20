@@ -9,8 +9,6 @@ const tr = {
   components: {
     employeeList: {
       searchPlaceholder: 'Çalışan Ara',
-    },
-    employeesTable: {
       columns: {
         firstName: 'Ad',
         lastName: 'Soyad',
@@ -24,11 +22,11 @@ const tr = {
         delete: 'Sil',
         details: 'Detaylar',
       },
-      deleteAlert: {
-        title: 'Emin misiniz?',
-        message: '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
-        buttonSave: 'Sil',
-      },
+    },
+    employeeDeleteAlertDialog: {
+      title: 'Emin misiniz?',
+      message: '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
+      buttonSave: 'Sil',
     },
     employeesEditDialog: {
       title: 'Çalışan Düzenleme',
@@ -44,6 +42,9 @@ const tr = {
         },
       },
       buttonSave: 'Kaydet',
+    },
+    empty: {
+      message: 'Veri bulunamadı',
     },
     ui: {
       alertDialog: {
