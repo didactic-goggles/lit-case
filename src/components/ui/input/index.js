@@ -55,10 +55,10 @@ export class LitInput extends LitElement {
 
   inputHandler(e) {
     this.value = e.target.value;
-    console.log(this.value);
+
     this.dispatchEvent(new CustomEvent('value-changed', {
       detail: {
-        value: this.value
+        value: e.target.value
       }
     }));
   }

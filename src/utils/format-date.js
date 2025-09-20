@@ -7,7 +7,6 @@ export const formatDate = (date) => {
     'en': 'en-US'
   };
   const intlLocale = localeMap[currentLocale] || 'tr-TR';
-  console.log("date", date);
   
   return new Date(date).toLocaleDateString(intlLocale, {
     day: '2-digit',

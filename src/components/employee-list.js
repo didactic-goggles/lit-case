@@ -9,7 +9,7 @@ import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../context/employee.js';
 import './ui/checkbox/index.js';
 import {formatDate} from '../utils/format-date.js';
-
+import {debounce} from '../utils/debounce.js';
 export class EmployeeList extends LitElement {
   _employeeContext = new ContextConsumer(this, {context: employeeContext});
 
@@ -26,7 +26,7 @@ export class EmployeeList extends LitElement {
     this.openEditDialog = false;
     this.openDeleteDialog = false;
     this.searchOptions = {
-      onChange: (event) => this.onSearchFiltersChange(event),
+      onChange: debounce((event) => this.onSearchFiltersChange(event), 500),
       value: '',
       placeholder: t('components.employeeList.searchPlaceholder'),
     };
@@ -119,7 +119,6 @@ export class EmployeeList extends LitElement {
   }
 
   onSearchFiltersChange(event) {
-    console.log(event.detail.value);
     setSearchFilters('search', event.detail.value);
   }
 
