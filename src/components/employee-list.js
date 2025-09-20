@@ -51,10 +51,12 @@ export class EmployeeList extends LitElement {
       {
         id: 'department',
         header: t('components.employeeList.columns.department'),
+        cell: (cellData) => t(`common.department.${cellData}`),
       },
       {
         id: 'position',
         header: t('components.employeeList.columns.position'),
+        cell: (cellData) => t(`common.position.${cellData}`),
       },
       {
         id: 'dateOfBirth',
@@ -73,7 +75,7 @@ export class EmployeeList extends LitElement {
           html`<lit-button
               variant="text"
               size="icon"
-              href="/employees/${row.id}"
+              href="/employees/update/${row.id}"
             >
               <lit-icon name="edit"></lit-icon>
 

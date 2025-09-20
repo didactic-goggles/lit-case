@@ -178,7 +178,7 @@ export class LitHeader extends LitElement {
       <header>
         <a href="/" aria-label="ING Test Case" id="header-logo">
           <img
-            src="./public/assets/images/logo.png"
+            src="public/assets/images/logo.png"
             alt="Logo"
             width="50"
             height="50"

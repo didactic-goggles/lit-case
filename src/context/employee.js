@@ -8,6 +8,8 @@ import {
   getSearchFilters,
   setMultipleSearchFilters,
 } from '../utils/search-filters.js';
+import {generateUUID} from '../utils/uuid.js';
+
 export class EmployeeContextProvider extends LitElement {
   static properties = {
     allEmployees: {type: Array},
@@ -43,11 +45,14 @@ export class EmployeeContextProvider extends LitElement {
             ? Number(getSearchFilters('totalPages'))
             : 1,
         },
+        addEmployee: this.addEmployee.bind(this),
+        updateEmployee: this.updateEmployee.bind(this),
+        deleteEmployee: this.deleteEmployee.bind(this),
+        getEmployee: this.getEmployee.bind(this),
         openDeleteDialog: this.openDeleteDialog,
         onOpenDeleteDialog: this.onOpenDeleteDialog.bind(this),
         onDeleteDialogClose: this.onDeleteDialogClose.bind(this),
         onDeleteDialogConfirm: this.onDeleteDialogConfirm.bind(this),
-        deleteEmployee: this.deleteEmployee.bind(this),
         filterEmployees: this.filterEmployees.bind(this),
         onViewAsChange: this.onViewAsChange.bind(this),
         onSearchValueChange: this.onSearchValueChange.bind(this),
@@ -56,6 +61,37 @@ export class EmployeeContextProvider extends LitElement {
     });
 
     this.filterEmployees();
+  }
+
+  addEmployee(employee) {
+    this.allEmployees = [
+      {
+        ...employee,
+        id: generateUUID(this.allEmployees),
+      },
+      ...this.allEmployees,
+    ];
+    StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(this.allEmployees));
+
+    this.filterEmployees();
+  }
+
+  updateEmployee(employee) {
+    console.log('updateEmployee', employee);
+    const tempAllEmployees = [...this.allEmployees];
+    const index = this.allEmployees.findIndex((e) => e.id === employee.id);
+    if (index > -1) {
+      tempAllEmployees[index] = employee;
+    }
+    console.log('tempAllEmployees', tempAllEmployees);
+    this.allEmployees = tempAllEmployees;
+    StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(this.allEmployees));
+
+    this.filterEmployees();
+  }
+
+  getEmployee(id) {
+    return this.allEmployees.find((employee) => employee.id === id);
   }
 
   deleteEmployee(id) {

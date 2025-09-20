@@ -11,11 +11,9 @@ export class LitEmployeesPage extends LitElement {
 
   render() {
     return html`
-      <!-- <h1>${t('employees.title')}</h1> -->
+      <h1>${t('employees.title')}</h1>
 
-      <!-- <employee-list></employee-list> -->
-
-      <lit-employee-create-page></lit-employee-create-page>
+      <employee-list></employee-list>
     `;
   }
 }

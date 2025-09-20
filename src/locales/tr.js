@@ -7,6 +7,7 @@ const tr = {
   },
   employeesUpdate: {
     title: 'Çalışan Düzenle',
+    helperMessage: '{firstName} {lastName} adlı çalışanı düzenlemektesiniz',
   },
   layout: {
     header: {
@@ -36,7 +37,8 @@ const tr = {
     },
     employeeDeleteAlertDialog: {
       title: 'Emin misiniz?',
-      message: '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
+      message:
+        '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
       buttonSave: 'Sil',
     },
     employeesEditDialog: {
@@ -82,21 +84,18 @@ const tr = {
           label: 'Departman',
           placeholder: 'Departmanınızı giriniz',
           errorRequired: 'Departmanınızı giriniz',
-          options: {
-            analytics: 'Analiz',
-            tech: 'Teknoloji',
-          },
         },
         position: {
           label: 'Pozisyon',
           placeholder: 'Pozisyonunuzu giriniz',
           errorRequired: 'Pozisyonunuzu giriniz',
-          options: {
-            senior: 'Kıdemli',
-            medior: 'Orta',
-            junior: 'Yeni',
-          },
         },
+      },
+      updateAlertDialog: {
+        title: 'Çalışan Düzenleme',
+        message:
+          '{firstName} {lastName} adlı çalışanı düzenlemektesiniz. Yeni bilgileri kaydetmek istediğinize emin misiniz?',
+        buttonSave: 'Kaydet',
       },
       buttonSave: 'Kaydet',
       buttonCancel: 'İptal',
@@ -111,7 +110,18 @@ const tr = {
       pagination: {
         previous: 'Önceki',
         next: 'Sonraki',
-      }
+      },
+    },
+  },
+  common: {
+    position: {
+      junior: 'Yeni',
+      medior: 'Orta',
+      senior: 'Kıdemli',
+    },
+    department: {
+      analytics: 'Analiz',
+      tech: 'Teknoloji',
     },
   },
 };

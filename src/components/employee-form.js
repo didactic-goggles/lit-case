@@ -5,9 +5,17 @@ import './ui/button/index.js';
 import './ui/label/index.js';
 import './ui/form/index.js';
 import './ui/select/index.js';
-import {t} from '../utils/i18n.js';
+import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
+import {ContextConsumer} from '@lit/context';
+import {employeeContext} from '../context/employee.js';
+import {Router} from '@vaadin/router';
+import './ui/alert-dialog/index.js';
 
 export class EmployeeForm extends LitElement {
+  _employeeContext = new ContextConsumer(this, {
+    context: employeeContext,
+  });
+
   static styles = css`
     :host {
       display: flex;
@@ -47,12 +55,18 @@ export class EmployeeForm extends LitElement {
   `;
   static properties = {
     employee: {type: Object},
+    openAlertDialog: {type: Boolean},
+    tempFormData: {type: Object},
   };
 
   constructor() {
     super();
+
     this.employee = null;
     this.formController = null;
+    this.openAlertDialog = false;
+    this.tempFormData = null;
+    updateWhenLocaleChanges(this);
   }
 
   willUpdate(changedProperties) {
@@ -70,19 +84,25 @@ export class EmployeeForm extends LitElement {
           lastName: [
             {
               type: 'required',
-              message: t('components.employeesForm.fields.lastName.errorRequired'),
+              message: t(
+                'components.employeesForm.fields.lastName.errorRequired'
+              ),
             },
           ],
           dateOfEmployment: [
             {
               type: 'required',
-              message: t('components.employeesForm.fields.dateOfEmployment.errorRequired'),
+              message: t(
+                'components.employeesForm.fields.dateOfEmployment.errorRequired'
+              ),
             },
           ],
           dateOfBirth: [
             {
               type: 'required',
-              message: t('components.employeesForm.fields.dateOfBirth.errorRequired'),
+              message: t(
+                'components.employeesForm.fields.dateOfBirth.errorRequired'
+              ),
             },
           ],
           phone: [
@@ -108,13 +128,17 @@ export class EmployeeForm extends LitElement {
           department: [
             {
               type: 'required',
-              message: t('components.employeesForm.fields.department.errorRequired'),
+              message: t(
+                'components.employeesForm.fields.department.errorRequired'
+              ),
             },
           ],
           position: [
             {
               type: 'required',
-              message: t('components.employeesForm.fields.position.errorRequired'),
+              message: t(
+                'components.employeesForm.fields.position.errorRequired'
+              ),
             },
           ],
         },
@@ -135,17 +159,15 @@ export class EmployeeForm extends LitElement {
   get departmentOptions() {
     return [
       {
-        label: t(
-          'components.employeesForm.fields.department.placeholder'
-        ),
+        label: t('components.employeesForm.fields.department.placeholder'),
         value: '',
       },
       {
-        label: t('components.employeesForm.fields.department.options.analytics'),
+        label: t('common.department.analytics'),
         value: 'analytics',
       },
       {
-        label: t('components.employeesForm.fields.department.options.tech'),
+        label: t('common.department.tech'),
         value: 'tech',
       },
     ];
@@ -154,21 +176,19 @@ export class EmployeeForm extends LitElement {
   get positionOptions() {
     return [
       {
-        label: t(
-          'components.employeesForm.fields.position.placeholder'
-        ),
+        label: t('components.employeesForm.fields.position.placeholder'),
         value: '',
       },
       {
-        label: t('components.employeesForm.fields.position.options.senior'),
+        label: t('common.position.senior'),
         value: 'senior',
       },
       {
-        label: t('components.employeesForm.fields.position.options.medior'),
+        label: t('common.position.medior'),
         value: 'medior',
       },
       {
-        label: t('components.employeesForm.fields.position.options.junior'),
+        label: t('common.position.junior'),
         value: 'junior',
       },
     ];
@@ -179,11 +199,32 @@ export class EmployeeForm extends LitElement {
   }
 
   onSaveClick() {
-    this.formController.handleSubmit(this.onSave);
+    this.formController.handleSubmit((data) => this.onSave(data));
   }
 
   onSave(data) {
-    console.log('onSave', data);
+    console.log("onSave", data, this);
+    if (this.employee) {
+      this.openAlertDialog = true;
+      this.tempFormData = data;
+    } else {
+      this._employeeContext.value.addEmployee(data);
+
+      Router.go('/');
+    }
+  }
+
+  onAlertDialogClose() {
+    this.openAlertDialog = false;
+  }
+
+  onAlertDialogConfirm() {
+    this._employeeContext.value.updateEmployee({
+      ...this.tempFormData,
+      id: this.employee.id,
+    });
+
+    Router.go('/');
   }
 
   render() {
@@ -439,7 +480,22 @@ export class EmployeeForm extends LitElement {
         <lit-button variant="secondary" @click=${this.onCancelClick}>
           ${t('components.employeesForm.buttonCancel')}
         </lit-button>
-      </div> `;
+      </div>
+      
+      <lit-alert-dialog
+        ?open=${this.openAlertDialog}
+        .title=${t('components.employeesForm.updateAlertDialog.title')}
+        .message=${t('components.employeeDeleteAlertDialog.message', {
+          firstName: this.employee?.firstName,
+          lastName: this.employee?.lastName,
+        })}
+        .confirmText=${t('components.employeesForm.updateAlertDialog.buttonSave')}
+        @close=${this.onAlertDialogClose}
+        @confirm=${this.onAlertDialogConfirm}
+      >
+        ${t('components.employeesForm.alertDialog.title')}
+      </lit-alert-dialog>
+      `;
   }
 }
 

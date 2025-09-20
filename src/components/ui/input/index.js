@@ -45,6 +45,13 @@ export class LitInput extends LitElement {
       height: 2.5rem;
     }
 
+    /* 
+      this was for setting custom date picker icon 
+      but it causes not open date picker popup in chrome, 
+      so I commented it out 
+    */
+
+    /*
     input[type='date'] {
       -webkit-appearance: none;
       -moz-appearance: textfield;
@@ -59,6 +66,7 @@ export class LitInput extends LitElement {
       background-size: 1.25rem 1.25rem;
       padding-right: 2.25rem;
     }
+    */
   `;
 
   constructor() {
@@ -72,11 +80,13 @@ export class LitInput extends LitElement {
   inputHandler(e) {
     this.value = e.target.value;
 
-    this.dispatchEvent(new CustomEvent('value-changed', {
-      detail: {
-        value: e.target.value
-      }
-    }));
+    this.dispatchEvent(
+      new CustomEvent('value-changed', {
+        detail: {
+          value: e.target.value,
+        },
+      })
+    );
   }
 
   render() {
