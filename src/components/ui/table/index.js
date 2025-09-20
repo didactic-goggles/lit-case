@@ -96,13 +96,18 @@ export class Table extends LitElement {
   }
 
   _handleSearchValueChanged(event) {
-    console.log('handleSearchValueChanged', event);
     this.searchValue = event.detail.value;
     this.dispatchEvent(
       new CustomEvent('search-value-changed', {
         detail: {value: this.searchValue},
       })
     );
+  }
+
+  _handlePageChange(event) {
+    this.dispatchEvent(new CustomEvent('page-change', {
+      detail: { page: event.detail.page },
+    }));
   }
 
   render() {
@@ -161,6 +166,7 @@ export class Table extends LitElement {
         ? html`<lit-table-pagination
             .page=${this.page}
             .totalPages=${this.totalPages}
+            @page-change=${this._handlePageChange}
           >
           </lit-table-pagination>`
         : ''}

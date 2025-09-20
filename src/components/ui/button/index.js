@@ -62,29 +62,10 @@ export class LitButton extends LitElement {
       background-color: var(--destructive-hover);
     }
 
-    :host([variant='text']) {
-      border-width: 1px;
-      border-color: var(--border);
+    :host([variant='ghost']) {
       background-color: transparent;
       color: var(--text);
-    }
-
-    :host([variant='text']:hover) {
-      background-color: var(--accent);
-    }
-
-    :host([variant='input']) {
-      background-color: var(--input-bg);
-      border: 1px solid var(--border);
-      color: var(--text);
-    }
-
-    :host([variant='input']:focus) {
-      box-shadow: var(--input-focus-box-shadow);
-    }
-
-    :host([variant='input']:hover) {
-      background-color: var(--input-hover);
+      box-shadow: none;
     }
 
     :host([size='sm']) {
@@ -100,6 +81,22 @@ export class LitButton extends LitElement {
       padding: 0.5rem;
       width: 2.25rem;
       height: 2.25rem;
+      border-radius: 9999px;
+    }
+
+    :host([variant='ghost']:hover) {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
+
+    :host([disabled]) {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    :host([active]) {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
     }
 
     a {
@@ -129,6 +126,7 @@ export class LitButton extends LitElement {
     variant: {type: String, attribute: 'variant'},
     href: {type: String, attribute: 'href'},
     size: {type: String, attribute: 'size'},
+    disabled: {type: Boolean, attribute: 'disabled'},
   };
 
   constructor() {

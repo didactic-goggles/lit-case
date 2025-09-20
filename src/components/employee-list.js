@@ -116,8 +116,11 @@ export class EmployeeList extends LitElement {
     this._employeeContext.value.onOpenDeleteDialog(employee);
   }
 
+  onPageChange(event) {
+    this._employeeContext.value.onPageChange(event.detail.page);
+  }
+
   render() {
-    console.log('render', this._employeeContext.value);
     return html`<lit-table
       .data=${this.data}
       .columns=${this.columns}
@@ -129,6 +132,10 @@ export class EmployeeList extends LitElement {
           this._employeeContext.value.onSearchValueChange(event.detail.value),
         500
       )}
+      .pagination=${true}
+      .page=${this._employeeContext.value.pagination.page}
+      .totalPages=${this._employeeContext.value.pagination.totalPages}
+      @page-change=${this.onPageChange}
     >
       <lit-toggle-group
         .value=${this._employeeContext.value.viewAs}

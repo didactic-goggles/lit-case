@@ -36,8 +36,9 @@ export class EmployeeContextProvider extends LitElement {
         selectedEmployee: this.selectedEmployee,
         searchValue: getSearchFilters('search') || '',
         pagination: {
-          page: getSearchFilters('page') || 1,
-          pageSize: getSearchFilters('pageSize') || 10,
+          page: getSearchFilters('page') ? Number(getSearchFilters('page')) : 1,
+          pageSize: getSearchFilters('pageSize') ? Number(getSearchFilters('pageSize')) : 10,
+          totalPages: getSearchFilters('totalPages') ? Number(getSearchFilters('totalPages')) : 1,
         },
         openDeleteDialog: this.openDeleteDialog,
         onOpenDeleteDialog: this.onOpenDeleteDialog.bind(this),
@@ -47,6 +48,7 @@ export class EmployeeContextProvider extends LitElement {
         filterEmployees: this.filterEmployees.bind(this),
         onViewAsChange: this.onViewAsChange.bind(this),
         onSearchValueChange: this.onSearchValueChange.bind(this),
+        onPageChange: this.onPageChange.bind(this),
       },
     });
 
@@ -54,14 +56,12 @@ export class EmployeeContextProvider extends LitElement {
   }
 
   deleteEmployee(id) {
-    this.employees = this.employees.filter((employee) => employee.id !== id);
-    const newValue = {
-      ...this._provider.value,
-      employees: [...this.employees],
-    };
-    this._provider.setValue(newValue);
+    const newEmployees = this.allEmployees.filter((employee) => employee.id !== id);
+    this.allEmployees = newEmployees;
 
     StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(this.employees));
+
+    this.filterEmployees();
   }
 
   filterEmployees() {
@@ -73,9 +73,10 @@ export class EmployeeContextProvider extends LitElement {
         .includes(currentValue.searchValue.toLowerCase())
     );
     this.employees = filteredEmployees.slice(
-      0,
+      currentValue.pagination.pageSize * (currentValue.pagination.page - 1),
       currentValue.pagination.pageSize * currentValue.pagination.page
     );
+    this._provider.value.pagination.totalPages = Math.ceil(filteredEmployees.length / currentValue.pagination.pageSize);
     this._provider.value.employees = this.employees;
   }
 
@@ -108,7 +109,6 @@ export class EmployeeContextProvider extends LitElement {
   }
 
   onViewAsChange(viewAs) {
-    console.log('onViewAsChange', viewAs);
     this._provider.setValue({
       ...this._provider.value,
       viewAs: viewAs,
@@ -121,7 +121,6 @@ export class EmployeeContextProvider extends LitElement {
   }
 
   onSearchValueChange(searchValue) {
-    console.log('onSearchValueChange', searchValue);
     this._provider.setValue({
       ...this._provider.value,
       searchValue: searchValue,
@@ -135,12 +134,15 @@ export class EmployeeContextProvider extends LitElement {
     this.filterEmployees();
   }
 
-  onPaginationChange(pagination) {
+  onPageChange(page) {
     this._provider.setValue({
       ...this._provider.value,
-      pagination: pagination,
+      pagination: {
+        ...this._provider.value.pagination,
+        page: page
+      },
     });
-    setSearchFilters('page', pagination.page);
+    setSearchFilters('page', page);
 
     this.filterEmployees();
   }

@@ -20,9 +20,15 @@ export class TablePagination extends LitElement {
     this.totalPages = 1;
   }
 
+  onPageChange(event) {
+    this.dispatchEvent(new CustomEvent('page-change', {
+      detail: { page: event.detail.page },
+    }));
+  }
+
   render() {
     return html`<div class="table-pagination">
-      <lit-pagination .page=${this.page} .totalPages=${this.totalPages} />
+      <lit-pagination .page=${this.page} .totalPages=${this.totalPages} @page-change=${this.onPageChange} />
     </div>`;
   }
 }
