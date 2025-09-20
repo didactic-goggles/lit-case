@@ -12,15 +12,36 @@ export class Pagination extends LitElement {
     }
   `;
 
+  static properties = {
+    page: {type: Number},
+    totalPages: {type: Number},
+  };
+
+  renderActiveButton(page) {
+    return html`<lit-button variant="text" size="icon"> <span>${page}</span></lit-button>`;
+  }
+
+  renderEllipsis() {
+    return html`<lit-button variant="text" size="icon">
+      <lit-icon name="ellipsis"></lit-icon>
+    </lit-button>`;
+  }
+
   render() {
     return html`<div class="pagination">
-      <lit-button variant="input">
+      <lit-button variant="text" size="icon">
         <lit-icon name="chevronLeft"></lit-icon>
-        ${t('components.ui.pagination.previous')}</lit-button
-      >
-      <lit-button variant="input">
-        ${t('components.ui.pagination.next')}
+
+        <span class="sr-only">${t('components.ui.pagination.previous')}</span>
+      </lit-button>
+
+      ${this.renderActiveButton(this.page)}
+      ${this.renderEllipsis()}
+
+      <lit-button variant="text" size="icon">
         <lit-icon name="chevronRight"></lit-icon>
+
+        <span class="sr-only">${t('components.ui.pagination.next')}</span>
       </lit-button>
     </div>`;
   }

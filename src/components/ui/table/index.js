@@ -63,18 +63,22 @@ export class Table extends LitElement {
   static properties = {
     data: {type: Array},
     columns: {type: Array},
-    searchable: {type: Boolean},
+    search: {type: Boolean},
     pagination: {type: Boolean},
     searchValue: {type: String},
     searchPlaceholder: {type: String},
+    page: {type: Number},
+    totalPages: {type: Number},
   };
 
   constructor() {
     super();
     this.data = [];
     this.columns = [];
-    this.searchable = true;
+    this.search = true;
     this.pagination = true;
+    this.page = 1;
+    this.totalPages = 1;
   }
 
   getRowData(row, column) {
@@ -92,17 +96,19 @@ export class Table extends LitElement {
   }
 
   _handleSearchValueChanged(event) {
-    console.log("handleSearchValueChanged", event);
+    console.log('handleSearchValueChanged', event);
     this.searchValue = event.detail.value;
-    this.dispatchEvent(new CustomEvent('search-value-changed', {
-      detail: {value: this.searchValue}
-    }));
+    this.dispatchEvent(
+      new CustomEvent('search-value-changed', {
+        detail: {value: this.searchValue},
+      })
+    );
   }
 
   render() {
     return html` <div class="table-container">
       <lit-table-header
-        .searchable=${this.searchable}
+        .search=${this.search}
         .searchValue=${this.searchValue}
         .searchPlaceholder=${this.searchPlaceholder}
         @search-value-changed=${this._handleSearchValueChanged}
@@ -151,7 +157,13 @@ export class Table extends LitElement {
         </div>
       </div>
 
-      ${this.pagination ? html`<lit-table-pagination />` : ''}
+      ${this.pagination
+        ? html`<lit-table-pagination
+            .page=${this.page}
+            .totalPages=${this.totalPages}
+          >
+          </lit-table-pagination>`
+        : ''}
     </div>`;
   }
 }

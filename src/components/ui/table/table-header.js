@@ -12,7 +12,7 @@ export class TableHeader extends LitElement {
   `;
 
   static properties = {
-    searchable: {type: Boolean},
+    search: {type: Boolean},
     searchValue: {type: String},
     searchPlaceholder: {type: String},
   };
@@ -26,7 +26,7 @@ export class TableHeader extends LitElement {
 
   render() {
     return html`<div class="table-header">
-      ${this.searchable
+      ${this.search
         ? html`<lit-input
             type="text"
             placeholder=${this.searchPlaceholder}
