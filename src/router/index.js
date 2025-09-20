@@ -1,5 +1,4 @@
 import {Router} from '@vaadin/router';
-import '../pages/home/index.js';
 import '../pages/employees/index.js';
 import '../pages/employees/create/index.js';
 import '../pages/employees/details/index.js';
@@ -7,10 +6,6 @@ import '../pages/employees/details/index.js';
 const routes = [
   {
     path: '/',
-    component: 'lit-home-page',
-  },
-  {
-    path: '/employees',
     component: 'lit-employees-page',
   },
   {

@@ -8,6 +8,12 @@ export class LitDialog extends LitElement {
   };
 
   static styles = css`
+  :host {
+    --close-btn-size: 32px;
+    --padding-x: 1rem;
+    --padding-y: 1rem;
+  }
+
     dialog {
       position: relative;
       border: none;
@@ -15,6 +21,7 @@ export class LitDialog extends LitElement {
       padding: 0;
       width: 100%;
       max-height: 90vh;
+      box-shadow: 0 10px 15px 3px rgba(0, 0, 0, 0.2);
     }
 
     dialog[size='sm'] {
@@ -30,46 +37,57 @@ export class LitDialog extends LitElement {
     }
 
     ::backdrop {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.3);
     }
 
     .dialog-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid #e5e7eb;
+      padding: var(--padding-y) var(--padding-x);
     }
 
-    .dialog-header h3 {
+    .dialog-header h2 {
       margin: 0;
-      font-size: 1.25rem;
-      font-weight: 600;
+      font-family: INGMeBold, arial, helvetica, sans-serif;
+      font-weight: 700;
+      color: var(--primary);
     }
 
     .close-btn {
+      width: var(--close-btn-size);
+      height: var(--close-btn-size);
       background: none;
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
       padding: 0.25rem;
       border-radius: 4px;
-      color: #6b7280;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn lit-icon {
+      width: var(--close-btn-size);
+      height: var(--close-btn-size);
     }
 
     .close-btn:hover {
-      background-color: #f3f4f6;
-      color: #374151;
+      color: var(--primary-hover);
+    }
+
+    .close-btn:focus {
+      outline: 1px solid var(--primary);
     }
 
     .dialog-content {
-      padding: 1.5rem;
+      padding: var(--padding-y) var(--padding-x);
     }
 
     .dialog-footer {
-      padding: 1rem 1.5rem;
-      border-top: 1px solid #e5e7eb;
-      background-color: #f9fafb;
+      padding: var(--padding-y) var(--padding-x);
     }
 
     .dialog-footer ::slotted(div) {
@@ -124,8 +142,10 @@ export class LitDialog extends LitElement {
         ${!this.hideHeader ?
         html`
           <div class="dialog-header">
-            <h3 id="dialog-title"><slot name="title"></slot></h3>
-            <button class="close-btn" @click=${this.onClose}>×</button>
+            <h2 id="dialog-title"><slot name="title"></slot></h2>
+            <button class="close-btn" @click=${this.onClose}>
+              <lit-icon name="x" size="32"></lit-icon>
+            </button>
           </div>
         ` : html``}
 

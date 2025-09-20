@@ -7,6 +7,8 @@ import './ui/toggle-group/index.js';
 import {getSearchFilters, setSearchFilters} from '../utils/search-filters.js';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../context/employee.js';
+import './ui/checkbox/index.js';
+import {formatDate} from '../utils/format-date.js';
 
 export class EmployeeList extends LitElement {
   _employeeContext = new ContextConsumer(this, {context: employeeContext});
@@ -34,6 +36,9 @@ export class EmployeeList extends LitElement {
   getColumns() {
     return [
       {
+        id: 'checkbox',
+      },
+      {
         id: 'firstName',
         header: t('components.employeesTable.columns.firstName'),
       },
@@ -60,23 +65,38 @@ export class EmployeeList extends LitElement {
       {
         id: 'dateOfBirth',
         header: t('components.employeesTable.columns.dateOfBirth'),
+        cell: (cellData) => formatDate(cellData),
       },
       {
         id: 'dateOfEmployment',
         header: t('components.employeesTable.columns.dateOfEmployment'),
+        cell: (cellData) => formatDate(cellData),
       },
       {
         id: '',
         header: t('components.employeesTable.columns.actions'),
         cell: (row) =>
-          html`<lit-button variant="primary" href="/employees/${row.id}"
-              >${t('components.employeesTable.columns.details')}</lit-button
+          html`<lit-button
+              variant="text"
+              size="icon"
+              href="/employees/${row.id}"
             >
+              <lit-icon name="edit"></lit-icon>
+
+              <span class="sr-only"
+                >${t('components.employeesTable.columns.details')}</span
+              >
+            </lit-button>
             <lit-button
               @click=${() => this.onEmployeeDeleteClick(row)}
-              variant="destructive"
-              >${t('components.employeesTable.columns.delete')}</lit-button
-            >`,
+              variant="text"
+              size="icon"
+            >
+              <span class="sr-only"
+                >${t('components.employeesTable.columns.delete')}</span
+              >
+              <lit-icon name="trash"></lit-icon>
+            </lit-button>`,
       },
     ];
   }
@@ -154,7 +174,10 @@ export class EmployeeList extends LitElement {
       <lit-alert-dialog
         .open=${this.openDeleteDialog}
         .title=${t('components.employeesTable.deleteAlert.title')}
-        .message=${t('components.employeesTable.deleteAlert.message')}
+        .message=${t('components.employeesTable.deleteAlert.message', {
+          firstName: this.selectedEmployee?.firstName,
+          lastName: this.selectedEmployee?.lastName,
+        })}
         .confirmText=${t('components.employeesTable.deleteAlert.buttonSave')}
         @close=${this.onDeleteDialogClose}
         @confirm=${this.onDeleteDialogConfirm}

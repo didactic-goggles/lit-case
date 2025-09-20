@@ -12,8 +12,6 @@ export class Table extends LitElement {
 
     .table-scroll-container {
       overflow: hidden;
-      border-radius: 0.5rem;
-      border: 1px solid var(--border);
     }
 
     .table {
@@ -25,6 +23,7 @@ export class Table extends LitElement {
       font-size: 0.875rem;
       width: 100%;
       border-collapse: collapse;
+      background-color: var(--background-table);
     }
 
     thead tr {
@@ -32,9 +31,15 @@ export class Table extends LitElement {
     }
 
     thead tr th {
-      padding: 0 0.5rem;
+      padding: 1rem 0.5rem;
       height: 2.5rem;
-      font-family: INGMeBold;
+      color: var(--primary);
+    }
+
+    thead tr th:has(lit-checkbox) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     tbody tr {
@@ -43,7 +48,7 @@ export class Table extends LitElement {
     }
 
     tbody tr:hover {
-      background-color: var(--muted);
+      background-color: var(--accent);
     }
 
     tbody tr:last-child {
@@ -51,7 +56,7 @@ export class Table extends LitElement {
     }
 
     tbody tr td {
-      padding: 0.5rem;
+      padding: 1rem 1rem;
       height: 2.5rem;
     }
   `;
@@ -87,7 +92,10 @@ export class Table extends LitElement {
 
   render() {
     return html` <div class="table-container">
-      <lit-table-header .searchable=${this.searchable} .searchOptions=${this.searchOptions}>
+      <lit-table-header
+        .searchable=${this.searchable}
+        .searchOptions=${this.searchOptions}
+      >
         <slot name="header-actions" slot="header-actions"></slot>
       </lit-table-header>
 
@@ -96,7 +104,11 @@ export class Table extends LitElement {
           <table>
             <thead>
               <tr>
-                ${this.columns.map((column) => html`<th>${column.header}</th>`)}
+                ${this.columns.map((column) =>
+                  column.id === 'checkbox'
+                    ? html`<th><lit-checkbox></lit-checkbox></th>`
+                    : html`<th>${column.header}</th>`
+                )}
               </tr>
             </thead>
             <tbody>
@@ -106,7 +118,9 @@ export class Table extends LitElement {
                     ${this.columns.map(
                       (column) =>
                         html`<td>
-                          ${column.cell
+                          ${column.id === 'checkbox'
+                            ? html`<lit-checkbox></lit-checkbox>`
+                            : column.cell
                             ? column.cell(
                                 this.getCellData(
                                   this.getRowData(row, column),

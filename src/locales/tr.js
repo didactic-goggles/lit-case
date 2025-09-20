@@ -3,7 +3,9 @@ const tr = {
     employees: 'Çalışanlar',
     addNew: 'Yeni Ekle',
   },
-  home: {},
+  employees: {
+    title: 'Çalışan Listesi',
+  },
   components: {
     employeeList: {
       searchPlaceholder: 'Çalışan Ara',
@@ -23,8 +25,8 @@ const tr = {
         details: 'Detaylar',
       },
       deleteAlert: {
-        title: 'Silme İşlemi',
-        message: 'Bu çalışanı silmek istediğinize emin misiniz?',
+        title: 'Emin misiniz?',
+        message: '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
         buttonSave: 'Sil',
       },
     },

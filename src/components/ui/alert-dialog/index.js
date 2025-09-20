@@ -1,14 +1,20 @@
 import {css, html, LitElement} from 'lit';
 import '../dialog/index.js';
 import '../button/index.js';
-import { t } from '../../../utils/i18n.js';
+import {t} from '../../../utils/i18n.js';
 
 export class LitAlertDialog extends LitElement {
   static styles = css`
-    .dialog-content {
+    .message {
+      font-size: 1.25rem;
+      color: var(--muted);
+    }
+
+    .footer-buttons {
+      width: 100%;
       display: flex;
       flex-direction: column;
-      gap: 1rem;
+      gap: 0.5rem;
     }
   `;
   static properties = {
@@ -21,7 +27,8 @@ export class LitAlertDialog extends LitElement {
 
   constructor() {
     super();
-    this.closeText = this.closeText || t('components.ui.alertDialog.buttonCancel');
+    this.closeText =
+      this.closeText || t('components.ui.alertDialog.buttonCancel');
   }
 
   onClose() {
@@ -36,17 +43,23 @@ export class LitAlertDialog extends LitElement {
     if (!this.open) return html``;
 
     return html`
-      <lit-dialog ?open=${this.open} hide-header @close=${this.onClose}>
-        <div slot="content">
-          <div>${this.title}</div>
+      <lit-dialog ?open=${this.open} @close=${this.onClose}>
+        <div slot="title">${this.title}</div>
 
-          <div>${this.message}</div>
+        <div slot="content">
+          <div class="message">${this.message}</div>
         </div>
 
         <div slot="footer">
-          <lit-button @click=${this.onClose} variant="secondary">${this.closeText}</lit-button>
+          <div class="footer-buttons">
+            <lit-button @click=${this.onConfirm} variant="primary" size="lg"
+              >${this.confirmText}</lit-button
+            >
 
-          <lit-button @click=${this.onConfirm} variant="destructive">${this.confirmText}</lit-button>
+            <lit-button @click=${this.onClose} variant="secondary" size="lg"
+              >${this.closeText}</lit-button
+            >
+          </div>
         </div>
       </lit-dialog>
     `;

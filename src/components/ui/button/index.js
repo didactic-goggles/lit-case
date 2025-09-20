@@ -26,13 +26,14 @@ export class LitButton extends LitElement {
       box-sizing: border-box;
       font-size: 0.875rem;
       transition: all 0.3s ease;
-      border: 1px solid var(--border);
+      border: 2px solid transparent;
       box-shadow: 0 1px 2px 0 #0000000d;
       position: relative;
       user-select: none;
     }
 
     :host([variant='primary']) {
+      border-color: var(--primary);
       background-color: var(--primary);
       color: var(--primary-foreground);
     }
@@ -42,15 +43,17 @@ export class LitButton extends LitElement {
     }
 
     :host([variant='secondary']) {
-      background-color: var(--secondary);
-      color: var(--secondary-foreground);
+      border-color: var(--secondary);
+      color: var(--secondary);
     }
 
     :host([variant='secondary']:hover) {
       background-color: var(--secondary-hover);
+      color: var(--secondary-foreground);
     }
 
     :host([variant='destructive']) {
+      border-color: var(--destructive);
       background-color: var(--destructive);
       color: var(--destructive-foreground);
     }
@@ -60,13 +63,14 @@ export class LitButton extends LitElement {
     }
 
     :host([variant='text']) {
+      border-width: 1px;
+      border-color: var(--border);
       background-color: transparent;
       color: var(--text);
     }
 
     :host([variant='text']:hover) {
       background-color: var(--accent);
-      color: var(--primary-foreground);
     }
 
     :host([variant='input']) {
@@ -89,6 +93,13 @@ export class LitButton extends LitElement {
 
     :host([size='lg']) {
       height: 2.5rem;
+      font-size: 1rem;
+    }
+
+    :host([size='icon']) {
+      padding: 0.5rem;
+      width: 2.25rem;
+      height: 2.25rem;
     }
 
     a {
@@ -97,6 +108,18 @@ export class LitButton extends LitElement {
       left: 0;
       width: 100%;
       height: 100%;
+    }
+
+    ::slotted(.sr-only) {
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+      width: 1px;
+      height: 1px;
+      margin: -1px;
+      padding: 0;
+      overflow: hidden;
+      position: absolute;
     }
   `;
 
