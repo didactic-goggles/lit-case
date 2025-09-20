@@ -1,39 +1,26 @@
 import {LitElement, html} from 'lit';
 import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
-import './ui/table/index.js';
-import './employee-edit-dialog.js';
-import './ui/alert-dialog/index.js';
-import './ui/toggle-group/index.js';
 import {getSearchFilters, setSearchFilters} from '../utils/search-filters.js';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../context/employee.js';
-import './ui/checkbox/index.js';
 import {formatDate} from '../utils/format-date.js';
-import {debounce} from '../utils/debounce.js';
+import './ui/table/index.js';
+import './ui/toggle-group/index.js';
+import './ui/alert-dialog/index.js';
 export class EmployeeList extends LitElement {
   _employeeContext = new ContextConsumer(this, {context: employeeContext});
 
   static properties = {
     columns: {type: Array},
-    selectedEmployee: {type: Object},
-    openEditDialog: {type: Boolean},
-    openDeleteDialog: {type: Boolean},
   };
 
   constructor() {
     super();
-    this.selectedEmployee = null;
-    this.openEditDialog = false;
-    this.openDeleteDialog = false;
-    this.searchOptions = {
-      onChange: debounce((event) => this.onSearchFiltersChange(event), 500),
-      value: '',
-      placeholder: t('components.employeeList.searchPlaceholder'),
-    };
+
     updateWhenLocaleChanges(this);
   }
 
-  getColumns() {
+  get columns() {
     return [
       {
         id: 'checkbox',
@@ -101,7 +88,11 @@ export class EmployeeList extends LitElement {
     ];
   }
 
-  getToggleGroupOptions() {
+  get data() {
+    return this._employeeContext.value.employees;
+  }
+
+  get toggleGroupOptions() {
     return [
       {
         icon: 'table',
@@ -120,67 +111,31 @@ export class EmployeeList extends LitElement {
 
   onSearchFiltersChange(event) {
     setSearchFilters('search', event.detail.value);
-  }
 
-  onEmployeeEditClick(employee) {
-    this.selectedEmployee = employee;
-    this.openEditDialog = true;
+    this._employeeContext.value.filterEmployees(event.detail.value);
   }
 
   onEmployeeDeleteClick(employee) {
-    this.selectedEmployee = employee;
-    this.openDeleteDialog = true;
-  }
-
-  onEditDialogClose() {
-    this.selectedEmployee = null;
-    this.openEditDialog = false;
-  }
-
-  onDeleteDialogClose() {
-    this.selectedEmployee = null;
-    this.openDeleteDialog = false;
-  }
-
-  onDeleteDialogConfirm() {
-    this._employeeContext.value.deleteEmployee(this.selectedEmployee.id);
-    this.selectedEmployee = null;
-    this.openDeleteDialog = false;
+    this._employeeContext.value.onOpenDeleteDialog(employee);
   }
 
   render() {
     return html`<lit-table
-        .data=${this._employeeContext.value.employees}
-        .columns=${this.getColumns()}
+        .data=${this.data}
+        .columns=${this.columns}
         searchable
-        .searchOptions=${this.searchOptions}
+        .searchValue=${this._employeeContext.value.searchValue}
+        .searchPlaceholder=${t('components.employeeList.searchPlaceholder')}
       >
         <lit-toggle-group
           .value=${getSearchFilters('viewAs') || 'table'}
-          .options=${this.getToggleGroupOptions()}
+          .options=${this.toggleGroupOptions}
           @change=${this.onToggleGroupChange}
           slot="header-actions"
         >
         </lit-toggle-group>
       </lit-table>
-
-      <employee-edit-dialog
-        .open=${this.openEditDialog}
-        .employee=${this.selectedEmployee}
-        @close=${this.onEditDialogClose}
-      ></employee-edit-dialog>
-
-      <lit-alert-dialog
-        .open=${this.openDeleteDialog}
-        .title=${t('components.employeesTable.deleteAlert.title')}
-        .message=${t('components.employeesTable.deleteAlert.message', {
-          firstName: this.selectedEmployee?.firstName,
-          lastName: this.selectedEmployee?.lastName,
-        })}
-        .confirmText=${t('components.employeesTable.deleteAlert.buttonSave')}
-        @close=${this.onDeleteDialogClose}
-        @confirm=${this.onDeleteDialogConfirm}
-      ></lit-alert-dialog> `;
+      `;
   }
 }
 

@@ -65,7 +65,8 @@ export class Table extends LitElement {
     columns: {type: Array},
     searchable: {type: Boolean},
     pagination: {type: Boolean},
-    searchOptions: {type: Object},
+    searchValue: {type: String},
+    searchPlaceholder: {type: String},
   };
 
   constructor() {
@@ -94,7 +95,8 @@ export class Table extends LitElement {
     return html` <div class="table-container">
       <lit-table-header
         .searchable=${this.searchable}
-        .searchOptions=${this.searchOptions}
+        .searchValue=${this.searchValue}
+        .searchPlaceholder=${this.searchPlaceholder}
       >
         <slot name="header-actions" slot="header-actions"></slot>
       </lit-table-header>

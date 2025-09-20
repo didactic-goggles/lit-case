@@ -40,8 +40,6 @@ export class LitAlertDialog extends LitElement {
   }
 
   render() {
-    if (!this.open) return html``;
-
     return html`
       <lit-dialog ?open=${this.open} @close=${this.onClose}>
         <div slot="title">${this.title}</div>

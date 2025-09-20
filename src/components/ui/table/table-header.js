@@ -13,11 +13,12 @@ export class TableHeader extends LitElement {
 
   static properties = {
     searchable: {type: Boolean},
-    searchOptions: {type: Object},
+    searchValue: {type: String},
+    searchPlaceholder: {type: String},
   };
 
   _handleInput(event) {
-    this.searchOptions.onChange(event);
+    this.searchValue = event.target.value;
   }
 
   render() {
@@ -25,8 +26,8 @@ export class TableHeader extends LitElement {
       ${this.searchable
         ? html`<lit-input
             type="text"
-            placeholder=${this.searchOptions.placeholder}
-            .value=${this.searchOptions.value}
+            placeholder=${this.searchPlaceholder}
+            .value=${this.searchValue}
             @value-changed=${this._handleInput}
           ></lit-input>`
         : ''}
