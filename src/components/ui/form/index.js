@@ -15,7 +15,7 @@ export class LitForm extends LitElement {
   }
 
   render() {
-    return html`<form @submit=${this.handleFormSubmit}>
+    return html`<form part="form" @submit=${this.handleFormSubmit}>
       <slot></slot>
     </form>`;
   }
@@ -44,21 +44,28 @@ export class LitFormItem extends LitElement {
 customElements.define('lit-form-item', LitFormItem);
 
 export class LitFormError extends LitElement {
+  static styles = css`
+    div {
+      font-size: 0.875rem;
+      color: var(--destructive);
+    }
+  `;
+
   static properties = {
-    hasError: {type: Boolean, attribute: 'has-error'},
+    message: {type: String, attribute: 'message'},
   };
 
   constructor() {
     super();
-    this.hasError = false;
+    this.message = '';
   }
 
   render() {
-    if (!this.hasError) {
+    if (!this.message) {
       return html``;
     }
     
-    return html`<div><slot></slot></div>`;
+    return html`<div>${this.message}</div>`;
   }
 }
 

@@ -23,6 +23,7 @@ export class LitInput extends LitElement {
       padding: 0.25rem 0.75rem;
       box-sizing: border-box;
       outline: none;
+      width: 100%;
     }
 
     input:focus {
@@ -42,6 +43,21 @@ export class LitInput extends LitElement {
 
     input[size='lg'] {
       height: 2.5rem;
+    }
+
+    input[type='date'] {
+      -webkit-appearance: none;
+      -moz-appearance: textfield;
+      appearance: none;
+      
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+      
+      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWNhbGVuZGFyMS1pY29uIGx1Y2lkZS1jYWxlbmRhci0xIj48cGF0aCBkPSJNMTEgMTRoMXY0Ii8+PHBhdGggZD0iTTE2IDJ2NCIvPjxwYXRoIGQ9Ik0zIDEwaDE4Ii8+PHBhdGggZD0iTTggMnY0Ii8+PHJlY3QgeD0iMyIgeT0iNCIgd2lkdGg9IjE4IiBoZWlnaHQ9IjE4IiByeD0iMiIvPjwvc3ZnPg==');      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 1.25rem 1.25rem;
+      padding-right: 2.25rem;
     }
   `;
 

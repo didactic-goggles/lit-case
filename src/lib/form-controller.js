@@ -30,16 +30,39 @@ export class FormController {
 
   validateField(name) {
     const validationOptions = this.getFieldOptions(name);
-    validationOptions.forEach(option => {
+    for (const option of validationOptions) {
       switch (option.type) {
         case 'required':
           if (this.checkRequired(this.getFieldValue(name))) {
             this.setError(name, option.message);
+            return;
+          } else {
+            this.setError(name, '');
+          }
+          break;
+        case 'email':
+          if (this.checkEmail(this.getFieldValue(name))) {
+            this.setError(name, option.message);
+            return;
+          } else {
+            this.setError(name, '');
+          }
+          break;
+        case 'phone':
+          if (this.checkPhone(this.getFieldValue(name))) {
+            this.setError(name, option.message);
+            return;
           } else {
             this.setError(name, '');
           }
           break;
       }
+    }
+  }
+
+  validateForm() {
+    Object.keys(this.options.fields).forEach((name) => {
+      this.validateField(name);
     });
   }
 
@@ -47,12 +70,20 @@ export class FormController {
     return fieldValue === '';
   }
 
+  checkEmail(fieldValue) {
+    return !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fieldValue);
+  }
+
+  checkPhone(fieldValue) {
+    return fieldValue.length < 5;
+  }
+
   hasError(name) {
     return this.errors[name];
   }
 
   hasErrors() {
-    return Object.values(this.errors).some(error => error !== '');
+    return Object.values(this.errors).some((error) => error !== '');
   }
 
   setError(name, error) {
@@ -65,18 +96,11 @@ export class FormController {
   }
 
   handleSubmit(onSubmit) {
+    this.validateForm();
+
     if (this.hasErrors()) {
       return;
     }
     onSubmit(this.values);
-  }
-
-  getValues() {
-    return {...this.values};
-  }
-
-  reset() {
-    this.values = {...this.options.defaultValues};
-    this.form.requestUpdate();
   }
 }

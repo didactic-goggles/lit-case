@@ -41,6 +41,7 @@ export class LitFooter extends LitElement {
       display: flex;
       justify-content: space-between;
       color: var(--muted);
+      font-size: 0.875rem;
     }
 
     .footer-bottom {
