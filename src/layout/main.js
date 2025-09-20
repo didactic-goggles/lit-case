@@ -3,6 +3,10 @@ import {initRouter} from '../router/index.js';
 
 export class LitMain extends LitElement {
   static styles = css`
+    :host {
+      flex: 1;
+    }
+
     .container {
       width: 100%;
       margin: 0 auto;

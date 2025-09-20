@@ -61,7 +61,7 @@ export class LitHeader extends LitElement {
       }
     }
 
-    #link-logo {
+    #header-logo {
       display: flex;
       align-items: center;
       gap: 1rem;
@@ -69,13 +69,13 @@ export class LitHeader extends LitElement {
       color: var(--text);
     }
 
-    #link-logo img {
+    #header-logo img {
       width: 2rem;
       height: 2rem;
       border-radius: 0.5rem;
     }
 
-    #link-logo span {
+    #header-logo span {
       font-size: 1.25rem;
       font-weight: 700;
     }
@@ -176,7 +176,7 @@ export class LitHeader extends LitElement {
   render() {
     return html`
       <header>
-        <a href="/" aria-label="ING Test Case" id="link-logo">
+        <a href="/" aria-label="ING Test Case" id="header-logo">
           <img
             src="./public/assets/images/logo.png"
             alt="Logo"
@@ -199,7 +199,7 @@ export class LitHeader extends LitElement {
               data-state=${this.currentPath === '/' ? 'active' : 'inactive'}
             >
               <lit-icon name="user"></lit-icon>
-              ${t('header.employees')}
+              ${t('layout.header.employees')}
             </a>
             <a
               href="/employees/create"
@@ -208,7 +208,7 @@ export class LitHeader extends LitElement {
                 : 'inactive'}
             >
               <lit-icon name="plus"></lit-icon>
-              ${t('header.addNew')}
+              ${t('layout.header.addNew')}
             </a>
           </nav>
 

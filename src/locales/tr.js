@@ -1,10 +1,21 @@
 const tr = {
-  header: {
-    employees: 'Çalışanlar',
-    addNew: 'Yeni Ekle',
-  },
   employees: {
     title: 'Çalışan Listesi',
+  },
+  employeesCreate: {
+    title: 'Çalışan Ekle',
+  },
+  employeesUpdate: {
+    title: 'Çalışan Düzenle',
+  },
+  layout: {
+    header: {
+      employees: 'Çalışanlar',
+      addNew: 'Yeni Ekle',
+    },
+    footer: {
+      message: 'Built with ❤️ by Dijwar Bozyel',
+    },
   },
   components: {
     employeeList: {
