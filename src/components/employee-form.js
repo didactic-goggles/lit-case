@@ -55,7 +55,8 @@ export class EmployeeForm extends LitElement {
   `;
   static properties = {
     employee: {type: Object},
-    openAlertDialog: {type: Boolean},
+    openUpdateAlertDialog: {type: Boolean},
+    openExitAlertDialog: {type: Boolean},
     tempFormData: {type: Object},
   };
 
@@ -64,7 +65,8 @@ export class EmployeeForm extends LitElement {
 
     this.employee = null;
     this.formController = null;
-    this.openAlertDialog = false;
+    this.openUpdateAlertDialog = false;
+    this.openExitAlertDialog = false;
     this.tempFormData = null;
     updateWhenLocaleChanges(this);
   }
@@ -208,7 +210,7 @@ export class EmployeeForm extends LitElement {
 
   onSave(data) {
     if (this.employee) {
-      this.openAlertDialog = true;
+      this.openUpdateAlertDialog = true;
       this.tempFormData = data;
     } else {
       this._employeeContext.value.addEmployee(data);
@@ -217,11 +219,11 @@ export class EmployeeForm extends LitElement {
     }
   }
 
-  onAlertDialogClose() {
-    this.openAlertDialog = false;
+  onUpdateAlertDialogClose() {
+    this.openUpdateAlertDialog = false;
   }
 
-  onAlertDialogConfirm() {
+  onUpdateAlertDialogConfirm() {
     this._employeeContext.value.updateEmployee({
       ...this.tempFormData,
       id: this.employee.id,
@@ -229,6 +231,18 @@ export class EmployeeForm extends LitElement {
 
     // Router.go(-1);
     window.history.back();
+  }
+
+  onExitAlertDialogClose() {
+    this.openExitAlertDialog = false;
+  }
+
+  onExitAlertDialogConfirm() {
+    this.openExitAlertDialog = false;
+    
+    this.dispatchEvent(new CustomEvent('exit-alert-confirmed', {
+      bubbles: true
+    }));
   }
 
   render() {
@@ -487,17 +501,28 @@ export class EmployeeForm extends LitElement {
       </div>
       
       <lit-alert-dialog
-        ?open=${this.openAlertDialog}
+        ?open=${this.openUpdateAlertDialog}
         .title=${t('components.employeesForm.updateAlertDialog.title')}
-        .message=${t('components.employeeDeleteAlertDialog.message', {
+        .message=${t('components.employeesForm.updateAlertDialog.message', {
           firstName: this.employee?.firstName,
           lastName: this.employee?.lastName,
         })}
         .confirmText=${t('components.employeesForm.updateAlertDialog.buttonSave')}
-        @close=${this.onAlertDialogClose}
-        @confirm=${this.onAlertDialogConfirm}
+        @close=${this.onUpdateAlertDialogClose}
+        @confirm=${this.onUpdateAlertDialogConfirm}
       >
-        ${t('components.employeesForm.alertDialog.title')}
+        ${t('components.employeesForm.updateAlertDialog.title')}
+      </lit-alert-dialog>
+
+      <lit-alert-dialog
+        ?open=${this.openExitAlertDialog}
+        .title=${t('components.employeesForm.exitAlertDialog.title')}
+        .message=${t('components.employeesForm.exitAlertDialog.message')}
+        .confirmText=${t('components.employeesForm.exitAlertDialog.buttonConfirm')}
+        @close=${this.onExitAlertDialogClose}
+        @confirm=${this.onExitAlertDialogConfirm}
+      >
+        ${t('components.employeesForm.exitAlertDialog.title')}
       </lit-alert-dialog>
       `;
   }

@@ -45,11 +45,6 @@ const tr = {
         '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
       buttonSave: 'Sil',
     },
-    employeesEditDialog: {
-      title: 'Çalışan Düzenleme',
-      buttonSave: 'Kaydet',
-      buttonCancel: 'İptal',
-    },
     employeesForm: {
       fields: {
         firstName: {
@@ -100,6 +95,12 @@ const tr = {
         message:
           '{firstName} {lastName} adlı çalışanı düzenlemektesiniz. Yeni bilgileri kaydetmek istediğinize emin misiniz?',
         buttonSave: 'Kaydet',
+      },
+      exitAlertDialog: {
+        title: 'Çıkış Yapılsın Mı?',
+        message:
+          'Kaydedilmemiş değişiklikler var. Çıkış yapmak istediğinize emin misiniz?',
+        buttonConfirm: 'Çıkış Yap',
       },
       buttonSave: 'Kaydet',
       buttonCancel: 'İptal',

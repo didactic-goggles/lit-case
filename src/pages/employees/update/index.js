@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../../../context/employee.js';
 import {updateWhenLocaleChanges, t} from '../../../utils/i18n.js';
+import {Router} from '@vaadin/router';
 import '../../../components/empty.js';
 
 export class EmployeeUpdatePage extends LitElement {
@@ -33,6 +34,7 @@ export class EmployeeUpdatePage extends LitElement {
   static properties = {
     employeeId: {type: String},
     employee: {type: Object},
+    redirectUrl: {type: String},
   };
 
   constructor() {
@@ -40,6 +42,7 @@ export class EmployeeUpdatePage extends LitElement {
 
     this.employeeId = null;
     this.employee = null;
+    this.redirectUrl = null;
 
     updateWhenLocaleChanges(this);
   }
@@ -49,6 +52,25 @@ export class EmployeeUpdatePage extends LitElement {
     this.employee = this._employeeContext.value.getEmployee(
       Number(this.employeeId)
     );
+  }
+
+  onBeforeLeave(location, commands) {
+    const form = this.shadowRoot.querySelector('employee-form');
+    if (
+      form &&
+      form.formController &&
+      form.formController.isFormDirty?.() &&
+      !this.redirectUrl
+    ) {
+      form.openExitAlertDialog = true;
+      this.redirectUrl = location.pathname + location.search;
+
+      return commands.prevent();
+    }
+  }
+
+  onExitAlertConfirmed() {
+    Router.go(this.redirectUrl);
   }
 
   render() {
@@ -64,7 +86,10 @@ export class EmployeeUpdatePage extends LitElement {
                 })}
               </div>
 
-              <employee-form .employee=${this.employee}></employee-form>
+              <employee-form
+                .employee=${this.employee}
+                @exit-alert-confirmed=${this.onExitAlertConfirmed}
+              ></employee-form>
             `
           : html`<lit-empty></lit-empty>`}
       </div>`;

@@ -3,8 +3,14 @@ export class FormController {
     this.form = form;
     this.options = options;
     this.values = {...options.defaultValues};
+    this.defaultValues = {...options.defaultValues};
+    this.dirtyFields = {};
     this.errors = {};
     this.form.addController(this);
+  }
+
+  setDirtyField(name, value) {
+    this.dirtyFields[name] = value !== this.defaultValues[name];
   }
 
   getFieldValue(name) {
@@ -14,6 +20,8 @@ export class FormController {
   setFieldValue(name, value) {
     this.values[name] = value;
     this.form.requestUpdate();
+
+    this.setDirtyField(name, value);
   }
 
   handleFieldChange(name) {
@@ -102,5 +110,9 @@ export class FormController {
       return;
     }
     onSubmit(this.values);
+  }
+
+  isFormDirty() {
+    return Object.values(this.dirtyFields).some((dirty) => dirty);
   }
 }
