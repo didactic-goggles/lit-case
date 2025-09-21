@@ -29,14 +29,15 @@ suite('employee-context', () => {
 
     originalGo = Router.go;
     goCalls = [];
+
     Router.go = (url) => {
       goCalls.push(url);
     };
   });
 
   teardown(() => {
-    console.log('teardown');
     Router.go = originalGo;
+    
     setQuery('');
 
     // localStorage.removeItem('employees');

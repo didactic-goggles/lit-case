@@ -1,3 +1,5 @@
+import { sanitizeText } from '../utils/sanitize.js';
+
 export class FormController {
   constructor(form, options) {
     this.form = form;
@@ -15,6 +17,14 @@ export class FormController {
 
   getFieldValue(name) {
     return this.values[name] || '';
+  }
+
+  sanitizeFormData(value) {
+    const sanitizedValue = {};
+    for (const key in value) {
+      sanitizedValue[key] = sanitizeText(value[key]);
+    }
+    return sanitizedValue;
   }
 
   setFieldValue(name, value) {
@@ -109,7 +119,8 @@ export class FormController {
     if (this.hasErrors()) {
       return;
     }
-    onSubmit(this.values);
+
+    onSubmit(this.sanitizeFormData(this.values));
   }
 
   isFormDirty() {
