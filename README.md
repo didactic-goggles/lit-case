@@ -12,6 +12,12 @@ filed in that repo.
 - vaadin/router
 - Lit/context
 
+## Some References
+- https://codesandbox.io/p/sandbox/lit101-vndtlj?file=%2Fsrc%2Fv7%2Fhistorical-times-wrapper.ts%3A25%2C38
+- https://lit.dev/playground/#sample=examples/context-consume-provide
+- https://moderncss.dev/pure-css-custom-checkbox-style/
+- https://medium.com/ing-blog/litelement-a-deepdive-into-batched-updates-b9431509fc4f
+
 ## Setup
 
 Install dependencies:
