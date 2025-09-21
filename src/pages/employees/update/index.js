@@ -18,12 +18,20 @@ export class EmployeeUpdatePage extends LitElement {
       border: 1px solid var(--border);
       height: 100%;
       box-shadow: var(--card-shadow);
+      position: relative;
     }
 
     .form-helper-message {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 1.5rem;
+      font-size: 0.875rem;
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 3rem 2rem 2rem 2rem;
+      }
     }
   `;
 

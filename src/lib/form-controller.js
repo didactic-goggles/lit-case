@@ -115,4 +115,10 @@ export class FormController {
   isFormDirty() {
     return Object.values(this.dirtyFields).some((dirty) => dirty);
   }
+
+  reset() {
+    this.values = {...this.defaultValues};
+    this.dirtyFields = {};
+    this.errors = {};
+  }
 }

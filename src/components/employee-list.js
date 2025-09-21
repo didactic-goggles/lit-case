@@ -41,12 +41,22 @@ export class EmployeeList extends LitElement {
         header: t('components.employeeList.columns.lastName'),
       },
       {
-        id: 'email',
-        header: t('components.employeeList.columns.email'),
+        id: 'dateOfEmployment',
+        header: t('components.employeeList.columns.dateOfEmployment'),
+        cell: (cellData) => formatDate(cellData),
+      },
+      {
+        id: 'dateOfBirth',
+        header: t('components.employeeList.columns.dateOfBirth'),
+        cell: (cellData) => formatDate(cellData),
       },
       {
         id: 'phone',
         header: t('components.employeeList.columns.phone'),
+      },
+      {
+        id: 'email',
+        header: t('components.employeeList.columns.email'),
       },
       {
         id: 'department',
@@ -57,16 +67,6 @@ export class EmployeeList extends LitElement {
         id: 'position',
         header: t('components.employeeList.columns.position'),
         cell: (cellData) => t(`common.position.${cellData}`),
-      },
-      {
-        id: 'dateOfBirth',
-        header: t('components.employeeList.columns.dateOfBirth'),
-        cell: (cellData) => formatDate(cellData),
-      },
-      {
-        id: 'dateOfEmployment',
-        header: t('components.employeeList.columns.dateOfEmployment'),
-        cell: (cellData) => formatDate(cellData),
       },
       {
         id: 'actions',

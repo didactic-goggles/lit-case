@@ -237,6 +237,8 @@ export class EmployeeForm extends LitElement {
       id: this.employee.id,
     });
 
+    this.formController.reset();
+
     // Router.go(-1);
     window.history.back();
   }
@@ -247,10 +249,12 @@ export class EmployeeForm extends LitElement {
 
   onExitAlertDialogConfirm() {
     this.openExitAlertDialog = false;
-    
-    this.dispatchEvent(new CustomEvent('exit-alert-confirmed', {
-      bubbles: true
-    }));
+
+    this.dispatchEvent(
+      new CustomEvent('exit-alert-confirmed', {
+        bubbles: true,
+      })
+    );
   }
 
   render() {
@@ -503,36 +507,53 @@ export class EmployeeForm extends LitElement {
           ${t('components.employeesForm.buttonSave')}
         </lit-button>
 
-        <lit-button variant="outline" color="secondary" @click=${this.onCancelClick}>
+        <lit-button
+          variant="outline"
+          color="secondary"
+          @click=${this.onCancelClick}
+        >
           ${t('components.employeesForm.buttonCancel')}
         </lit-button>
       </div>
-      
-      <lit-alert-dialog
-        ?open=${this.openUpdateAlertDialog}
-        .title=${t('components.employeesForm.updateAlertDialog.title')}
-        .message=${t('components.employeesForm.updateAlertDialog.message', {
-          firstName: this.employee?.firstName,
-          lastName: this.employee?.lastName,
-        })}
-        .confirmText=${t('components.employeesForm.updateAlertDialog.buttonSave')}
-        @close=${this.onUpdateAlertDialogClose}
-        @confirm=${this.onUpdateAlertDialogConfirm}
-      >
-        ${t('components.employeesForm.updateAlertDialog.title')}
-      </lit-alert-dialog>
 
-      <lit-alert-dialog
-        ?open=${this.openExitAlertDialog}
-        .title=${t('components.employeesForm.exitAlertDialog.title')}
-        .message=${t('components.employeesForm.exitAlertDialog.message')}
-        .confirmText=${t('components.employeesForm.exitAlertDialog.buttonConfirm')}
-        @close=${this.onExitAlertDialogClose}
-        @confirm=${this.onExitAlertDialogConfirm}
-      >
-        ${t('components.employeesForm.exitAlertDialog.title')}
-      </lit-alert-dialog>
-      `;
+      ${this.openUpdateAlertDialog
+        ? html`
+            <lit-alert-dialog
+              ?open=${this.openUpdateAlertDialog}
+              .title=${t('components.employeesForm.updateAlertDialog.title')}
+              .message=${t(
+                'components.employeesForm.updateAlertDialog.message',
+                {
+                  firstName: this.employee?.firstName,
+                  lastName: this.employee?.lastName,
+                }
+              )}
+              .confirmText=${t(
+                'components.employeesForm.updateAlertDialog.buttonSave'
+              )}
+              @close=${this.onUpdateAlertDialogClose}
+              @confirm=${this.onUpdateAlertDialogConfirm}
+            >
+              ${t('components.employeesForm.updateAlertDialog.title')}
+            </lit-alert-dialog>
+          `
+        : html``}
+      ${this.openExitAlertDialog
+        ? html`
+            <lit-alert-dialog
+              ?open=${this.openExitAlertDialog}
+              .title=${t('components.employeesForm.exitAlertDialog.title')}
+              .message=${t('components.employeesForm.exitAlertDialog.message')}
+              .confirmText=${t(
+                'components.employeesForm.exitAlertDialog.buttonConfirm'
+              )}
+              @close=${this.onExitAlertDialogClose}
+              @confirm=${this.onExitAlertDialogConfirm}
+            >
+              ${t('components.employeesForm.exitAlertDialog.title')}
+            </lit-alert-dialog>
+          `
+        : html``}`;
   }
 }
 

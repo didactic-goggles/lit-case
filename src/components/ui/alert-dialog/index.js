@@ -7,7 +7,6 @@ export class LitAlertDialog extends LitElement {
   static styles = css`
     .message {
       font-size: 1.25rem;
-      color: var(--muted);
     }
 
     .footer-buttons {
