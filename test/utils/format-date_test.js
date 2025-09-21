@@ -2,6 +2,10 @@ import { assert } from '@open-wc/testing';
 import { formatDate } from '../../src/utils/format-date.js';
 
 suite('formatDate', () => {
+  test('is defined', () => {
+    assert.isFunction(formatDate);
+  });
+
   test('formats date correctly for Turkish locale', () => {    
     const date = "1995-04-28";
     const formatted = formatDate(date);

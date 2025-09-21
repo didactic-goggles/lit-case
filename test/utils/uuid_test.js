@@ -2,6 +2,10 @@ import {assert} from '@open-wc/testing';
 import {generateUUID} from '../../src/utils/uuid.js';
 
 suite('generateUUID', () => {
+  test('is defined', () => {
+    assert.isFunction(generateUUID);
+  });
+
   test('should return 1 for an empty array', () => {
     const arr = [];
     const id = generateUUID(arr);

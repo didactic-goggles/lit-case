@@ -2,6 +2,10 @@ import { assert } from '@open-wc/testing';
 import { t } from '../../src/utils/i18n.js';
 
 suite('t', () => {
+  test('is defined', () => {
+    assert.isFunction(t);
+  });
+
   test('should return the value of the key', () => {
     const text = t('layout.header.employees');
 
