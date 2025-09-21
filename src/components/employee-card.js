@@ -44,6 +44,12 @@ export class EmployeeCard extends LitElement {
       text-overflow: ellipsis;
       white-space: nowrap;
     }
+
+    @media (max-width: 768px) {
+      ul {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+      }
+    }
   `;
 
   _employeeContext = new ContextConsumer(this, {
@@ -85,12 +91,12 @@ export class EmployeeCard extends LitElement {
       {
         id: 'department',
         label: t('components.employeeList.columns.department'),
-        value: this.employee.department,
+        value: t(`common.department.${this.employee.department}`),
       },
       {
         id: 'position',
         label: t('components.employeeList.columns.position'),
-        value: this.employee.position,
+        value: t(`common.position.${this.employee.position}`),
       },
       {
         id: 'dateOfBirth',

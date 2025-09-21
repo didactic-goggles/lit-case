@@ -97,6 +97,7 @@ export class LitButton extends LitElement {
       width: 2.25rem;
       height: 2.25rem;
       border-radius: 9999px;
+      flex-shrink: 0;
     }
 
     :host([variant='ghost']:hover) {

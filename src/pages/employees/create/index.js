@@ -16,6 +16,12 @@ export class EmployeeCreatePage extends LitElement {
       height: 100%;
       box-shadow: var(--card-shadow);
     }
+
+    @media (max-width: 768px) {
+      .form-container {
+        padding: 2rem 2rem;
+      }
+    }
   `;
 
   render() {

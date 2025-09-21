@@ -7,10 +7,10 @@ import './context/employee.js';
 
 export class LitIndex extends LitElement {
   static styles = css`
-    div {
+    :host {
+      height: 100svh;
       display: flex;
       flex-direction: column;
-      min-height: 100svh;
     }
   `;
   constructor() {
@@ -21,14 +21,12 @@ export class LitIndex extends LitElement {
 
   render() {
     return html`
+      <lit-header></lit-header>
+
       <employee-context-provider>
-        <div>
-          <lit-header></lit-header>
+        <lit-main></lit-main>
 
-          <lit-main></lit-main>
-
-          <lit-footer></lit-footer>
-        </div>
+        <lit-footer></lit-footer>
       </employee-context-provider>
     `;
   }

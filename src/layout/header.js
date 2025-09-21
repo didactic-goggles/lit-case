@@ -12,7 +12,7 @@ export class LitHeader extends LitElement {
       position: sticky;
       top: 0;
       z-index: 100;
-      height: 4rem;
+      height: var(--header-height);
       display: flex;
       align-items: center;
       gap: 1rem;

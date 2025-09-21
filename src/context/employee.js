@@ -1,4 +1,4 @@
-import {LitElement, html} from 'lit';
+import {LitElement, html, css} from 'lit';
 import {createContext, ContextProvider} from '@lit/context';
 import mockEmployees from '../data/employees.js';
 import {StorageManager} from '../lib/storage-manager.js';
@@ -11,6 +11,14 @@ import {
 import {generateUUID} from '../utils/uuid.js';
 
 export class EmployeeContextProvider extends LitElement {
+  static styles = css`
+    :host {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: auto;
+    }
+  `;
   static properties = {
     allEmployees: {type: Array},
     employees: {type: Array},

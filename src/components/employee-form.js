@@ -30,9 +30,28 @@ export class EmployeeForm extends LitElement {
       gap: 1rem;
     }
 
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .buttons lit-button {
+      width: 100%;
+    }
+
     @media (min-width: 768px) {
       lit-form::part(form) {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .buttons {
+        flex-direction: row;
+      }
+
+      .buttons lit-button {
+        max-width: 200px;
       }
     }
 
@@ -40,17 +59,6 @@ export class EmployeeForm extends LitElement {
       lit-form::part(form) {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
-    }
-
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .buttons lit-button {
-      width: 100%;
-      max-width: 200px;
     }
   `;
   static properties = {

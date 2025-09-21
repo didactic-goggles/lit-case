@@ -9,9 +9,15 @@ export class Pagination extends LitElement {
   static styles = css`
     .pagination {
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
       align-items: center;
       justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .pagination {
+        flex-wrap: wrap;
+      }
     }
   `;
 

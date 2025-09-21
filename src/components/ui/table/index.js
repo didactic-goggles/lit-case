@@ -62,6 +62,7 @@ export class Table extends LitElement {
     tbody tr td {
       padding: 1rem 1rem;
       height: 2.5rem;
+      white-space: nowrap;
     }
   `;
 

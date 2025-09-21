@@ -9,7 +9,6 @@ export class LitMain extends LitElement {
     }
 
     .container {
-      width: 100%;
       margin: 0 auto;
       padding: 0 1rem;
       max-width: calc(100vw - 2rem);
