@@ -91,6 +91,20 @@ export default {
   nodeResolve: {exportConditions: mode === 'dev' ? ['development'] : []},
   preserveSymlinks: true,
   browsers: commandLineBrowsers ?? Object.values(browsers),
+  coverage: true,
+  coverageConfig: {
+    include: ['src/**/*.js'],
+    exclude: [
+      'src/**/*_test.js',
+      'test/**/*.js'
+    ],
+    threshold: {
+      statements: 85,
+      branches: 85,
+      functions: 85,
+      lines: 85
+    }
+  },
   testFramework: {
     // https://mochajs.org/api/mocha
     config: {
