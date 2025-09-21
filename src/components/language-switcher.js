@@ -55,7 +55,12 @@ export class LitLanguageSwitcher extends LitElement {
       >
         ${this.options.map(
           (option) =>
-            html`<option value=${option.value}>${option.label}</option>`
+            html`<option
+              value=${option.value}
+              ?selected=${option.value === localeManager.getCurrentLocale()}
+            >
+              ${option.label}
+            </option>`
         )}
       </select>`;
   }
