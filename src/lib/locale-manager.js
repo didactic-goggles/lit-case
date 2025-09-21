@@ -5,16 +5,16 @@ const STRING_SEPARATOR = '.';
 
 export class LocaleManager {
   constructor() {
-    this.components = new Set();
+    this.components = [];
     this.currentLocale = document.documentElement.lang || 'tr';
   }
 
   registerComponent(component) {
-    this.components.add(component);
+    this.components = [...this.components, component];
   }
 
   unregisterComponent(component) {
-    this.components.delete(component);
+    this.components = [...this.components.filter((c) => c !== component)];
   }
 
   setLocale(locale) {
