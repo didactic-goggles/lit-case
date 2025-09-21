@@ -1,9 +1,15 @@
 import { assert } from '@open-wc/testing';
 import { t } from '../../src/utils/i18n.js';
+import { LocaleManager } from '../../src/lib/locale-manager.js';
 
 suite('t', () => {
   test('is defined', () => {
     assert.isFunction(t);
+
+    const localeManager = new LocaleManager();
+    assert.instanceOf(localeManager, LocaleManager);
+    localeManager.init();
+    assert.equal(localeManager.getCurrentLocale(), 'tr');
   });
 
   test('should return the value of the key', () => {
