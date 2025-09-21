@@ -205,6 +205,12 @@ export class EmployeeForm extends LitElement {
   }
 
   onCancelClick() {
+    if (this.formController.isFormDirty?.()) {
+      this.openExitAlertDialog = true;
+
+      return;
+    }
+
     if (this.employee) {
       window.history.back();
     } else {
@@ -222,6 +228,8 @@ export class EmployeeForm extends LitElement {
       this.tempFormData = data;
     } else {
       this._employeeContext.value.addEmployee(data);
+
+      this._employeeContext.value.onPageChange(1);
 
       Router.go('/');
     }
@@ -250,11 +258,7 @@ export class EmployeeForm extends LitElement {
   onExitAlertDialogConfirm() {
     this.openExitAlertDialog = false;
 
-    this.dispatchEvent(
-      new CustomEvent('exit-alert-confirmed', {
-        bubbles: true,
-      })
-    );
+    window.history.back();
   }
 
   render() {

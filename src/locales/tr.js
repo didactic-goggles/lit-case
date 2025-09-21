@@ -15,7 +15,7 @@ const tr = {
       addNew: 'Yeni Ekle',
     },
     footer: {
-      message: 'Built with ❤️ by Dijwar Bozyel',
+      message: 'by Dijwar Bozyel',
     },
   },
   notFound: {

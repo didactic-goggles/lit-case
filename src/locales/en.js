@@ -15,7 +15,7 @@ const en = {
       addNew: 'Add New',
     },
     footer: {
-      message: 'Built with ❤️ by Dijwar Bozyel',
+      message: 'by Dijwar Bozyel',
     },
   },
   notFound: {
