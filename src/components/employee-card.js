@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+import {repeat} from 'lit/directives/repeat.js';
 import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
 import './ui/card/index.js';
 import './ui/button/index.js';
@@ -62,34 +63,42 @@ export class EmployeeCard extends LitElement {
   get fields() {
     return [
       {
+        id: 'firstName',
         label: t('components.employeeList.columns.firstName'),
         value: this.employee.firstName,
       },
       {
+        id: 'lastName',
         label: t('components.employeeList.columns.lastName'),
         value: this.employee.lastName,
       },
       {
+        id: 'email',
         label: t('components.employeeList.columns.email'),
         value: this.employee.email,
       },
       {
+        id: 'phone',
         label: t('components.employeeList.columns.phone'),
         value: this.employee.phone,
       },
       {
+        id: 'department',
         label: t('components.employeeList.columns.department'),
         value: this.employee.department,
       },
       {
+        id: 'position',
         label: t('components.employeeList.columns.position'),
         value: this.employee.position,
       },
       {
+        id: 'dateOfBirth',
         label: t('components.employeeList.columns.dateOfBirth'),
         value: formatDate(this.employee.dateOfBirth),
       },
       {
+        id: 'dateOfEmployment',
         label: t('components.employeeList.columns.dateOfEmployment'),
         value: formatDate(this.employee.dateOfEmployment),
       },
@@ -104,7 +113,9 @@ export class EmployeeCard extends LitElement {
     return html`<lit-card>
       <div slot="content">
         <ul>
-          ${this.fields.map(
+          ${repeat(
+            this.fields,
+            (field) => field.id,
             (field) => html`<li>
               <span>${field.label}</span>
               <span title=${field.value}>${field.value}</span>

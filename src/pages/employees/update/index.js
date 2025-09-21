@@ -2,6 +2,7 @@ import {LitElement, html, css} from 'lit';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../../../context/employee.js';
 import {updateWhenLocaleChanges, t} from '../../../utils/i18n.js';
+import '../../../components/empty.js';
 
 export class EmployeeUpdatePage extends LitElement {
   static styles = css`
@@ -54,17 +55,18 @@ export class EmployeeUpdatePage extends LitElement {
     return html` <h1>${t('employeesUpdate.title')}</h1>
 
       <div class="form-container">
-        ${this.employee &&
-        html`
-          <div class="form-helper-message">
-            ${t('employeesUpdate.helperMessage', {
-              firstName: this.employee.firstName,
-              lastName: this.employee.lastName,
-            })}
-          </div>
-        `}
+        ${this.employee
+          ? html`
+              <div class="form-helper-message">
+                ${t('employeesUpdate.helperMessage', {
+                  firstName: this.employee.firstName,
+                  lastName: this.employee.lastName,
+                })}
+              </div>
 
-        <employee-form .employee=${this.employee}></employee-form>
+              <employee-form .employee=${this.employee}></employee-form>
+            `
+          : html`<lit-empty></lit-empty>`}
       </div>`;
   }
 }

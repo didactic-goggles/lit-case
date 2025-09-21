@@ -1,4 +1,5 @@
 import {LitElement, html, css} from 'lit';
+import {repeat} from 'lit/directives/repeat.js';
 import './card-grid-header.js';
 import '../../empty.js';
 
@@ -69,15 +70,15 @@ export class LitCardGrid extends LitElement {
         <slot name="header-actions" slot="header-actions"></slot>
       </lit-card-grid-header>
 
-      ${this.data.length === 0 ? html`<lit-empty></lit-empty>` : ''}
+      ${this.data.length === 0 ? html`<lit-empty></lit-empty>` : html``}
 
       ${this.data.length > 0
         ? html`
             <div class="card-grid">
-              ${this.data.map((item) => this.renderFunction(item))}
+              ${repeat(this.data, (item) => item.id, (item) => this.renderFunction(item))}
             </div>
           `
-        : ''}
+        : html``}
       ${this.pagination
         ? html`
             <lit-pagination
@@ -86,7 +87,7 @@ export class LitCardGrid extends LitElement {
               @page-change=${this._handlePageChange}
             />
           `
-        : ''}
+        : html``}
     `;
   }
 }

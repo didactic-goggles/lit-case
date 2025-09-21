@@ -16,6 +16,7 @@ export class LitButton extends LitElement {
 
     :host {
       --border-color: transparent;
+      --foreground-color: var(--primary);
 
       font-family: inherit;
       display: inline-flex;
@@ -112,7 +113,7 @@ export class LitButton extends LitElement {
     :host([active]) {
       background-color: var(--primary);
       color: var(--primary-foreground);
-      --icon-color: var(--primary-foreground);
+      --foreground-color: var(--primary-foreground);
     }
 
     :host([variant='ghost'][size='icon']) {
@@ -166,7 +167,7 @@ export class LitButton extends LitElement {
     return html`
       <slot></slot>
 
-      ${this.href ? html`<a href=${this.href}></a>` : ''}
+      ${this.href ? html`<a href=${this.href}></a>` : html``}
     `;
   }
 }

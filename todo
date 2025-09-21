@@ -4,6 +4,7 @@ styleları map ile yazma, buttons
 favicon ve seo düzenlemeleri yapılacak
 security kontrolleri
 formdan çıkış uyarısı
+prettier formatlama
 
 
 https://codesandbox.io/p/sandbox/lit101-vndtlj?file=%2Fsrc%2Fv7%2Fhistorical-times-wrapper.ts%3A25%2C38

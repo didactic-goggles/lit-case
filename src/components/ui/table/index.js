@@ -1,4 +1,5 @@
 import {css, html, LitElement} from 'lit';
+import {repeat} from 'lit/directives/repeat.js';
 import './table-header.js';
 import '../pagination/index.js';
 import '../../empty.js';
@@ -63,6 +64,9 @@ export class Table extends LitElement {
       height: 2.5rem;
     }
   `;
+
+  SPECIAL_COLUMNS = ['checkbox', 'actions'];
+
   static properties = {
     data: {type: Array},
     columns: {type: Array},
@@ -92,7 +96,7 @@ export class Table extends LitElement {
   }
 
   getCellData(rowData, column) {
-    if (column.id) {
+    if (column.id && !this.SPECIAL_COLUMNS.includes(column.id)) {
       return rowData[column.id];
     }
     return rowData;
@@ -131,10 +135,13 @@ export class Table extends LitElement {
           <table>
             <thead>
               <tr>
-                ${this.columns.map((column) =>
-                  column.id === 'checkbox'
-                    ? html`<th><lit-checkbox></lit-checkbox></th>`
-                    : html`<th>${column.header}</th>`
+                ${repeat(
+                  this.columns,
+                  (column) => column.id,
+                  (column) =>
+                    column.id === 'checkbox'
+                      ? html`<th><lit-checkbox></lit-checkbox></th>`
+                      : html`<th>${column.header}</th>`
                 )}
               </tr>
             </thead>
@@ -145,26 +152,29 @@ export class Table extends LitElement {
                       <lit-empty></lit-empty>
                     </td>
                   </tr>`
-                : this.data.map(
+                : repeat(
+                    this.data,
+                    (row) => row.id,
                     (row) =>
                       html`<tr>
-                        ${this.columns.map(
-                          (column) =>
-                            html`<td>
-                              ${column.id === 'checkbox'
-                                ? html`<lit-checkbox></lit-checkbox>`
-                                : column.cell
-                                ? column.cell(
-                                    this.getCellData(
-                                      this.getRowData(row, column),
-                                      column
-                                    )
-                                  )
-                                : this.getCellData(
+                        ${repeat(
+                          this.columns,
+                          (column) => column.id,
+                          (column) => html`<td>
+                            ${column.id === 'checkbox'
+                              ? html`<lit-checkbox></lit-checkbox>`
+                              : column.cell
+                              ? column.cell(
+                                  this.getCellData(
                                     this.getRowData(row, column),
                                     column
-                                  )}
-                            </td>`
+                                  )
+                                )
+                              : this.getCellData(
+                                  this.getRowData(row, column),
+                                  column
+                                )}
+                          </td>`
                         )}
                       </tr>`
                   )}
@@ -181,7 +191,7 @@ export class Table extends LitElement {
               @page-change=${this._handlePageChange}
             />
           `
-        : ''}
+        : html``}
     `;
   }
 }

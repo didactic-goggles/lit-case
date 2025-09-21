@@ -109,13 +109,13 @@ export class Pagination extends LitElement {
         <span class="sr-only">${t('components.ui.pagination.previous')}</span>
       </lit-button>
 
-      ${pageNumbers[0] > 1 ? this.renderPageButton(1) : ''}
-      ${showStartEllipsis ? this.renderEllipsis() : ''}
+      ${pageNumbers[0] > 1 ? this.renderPageButton(1) : html``}
+      ${showStartEllipsis ? this.renderEllipsis() : html``}
       ${pageNumbers.map((pageNum) => this.renderPageButton(pageNum))}
-      ${showEndEllipsis ? this.renderEllipsis() : ''}
+      ${showEndEllipsis ? this.renderEllipsis() : html``}
       ${pageNumbers[pageNumbers.length - 1] < this.totalPages
         ? this.renderPageButton(this.totalPages)
-        : ''}
+        : html``}
 
       <lit-button
         variant="ghost"

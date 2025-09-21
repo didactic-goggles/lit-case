@@ -100,7 +100,7 @@ export class EmployeeContextProvider extends LitElement {
     );
     this.allEmployees = newEmployees;
 
-    StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(this.employees));
+    StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(newEmployees));
 
     this.filterEmployees();
   }

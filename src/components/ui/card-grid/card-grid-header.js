@@ -42,7 +42,7 @@ export class CardGridHeader extends LitElement {
             .value=${this.searchValue}
             @value-changed=${this._handleInput}
           ></lit-input>`
-        : ''}
+        : html``}
 
       <slot name="header-actions"></slot>
     `;

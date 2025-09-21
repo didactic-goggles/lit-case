@@ -69,7 +69,7 @@ export class EmployeeList extends LitElement {
         cell: (cellData) => formatDate(cellData),
       },
       {
-        id: '',
+        id: 'actions',
         header: t('components.employeeList.columns.actions'),
         cell: (row) =>
           html`<lit-button

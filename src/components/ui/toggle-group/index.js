@@ -64,7 +64,7 @@ export class LitToggleGroup extends LitElement {
               ? option.label
               : option.icon
               ? html`<lit-icon name=${option.icon} />`
-              : ''}
+              : html``}
           </lit-button>
         `
       )}
