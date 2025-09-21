@@ -77,13 +77,11 @@ export class EmployeeContextProvider extends LitElement {
   }
 
   updateEmployee(employee) {
-    console.log('updateEmployee', employee);
     const tempAllEmployees = [...this.allEmployees];
     const index = this.allEmployees.findIndex((e) => e.id === employee.id);
     if (index > -1) {
       tempAllEmployees[index] = employee;
     }
-    console.log('tempAllEmployees', tempAllEmployees);
     this.allEmployees = tempAllEmployees;
     StorageManager.setItem(this.STORAGE_KEY, JSON.stringify(this.allEmployees));
 
@@ -158,11 +156,8 @@ export class EmployeeContextProvider extends LitElement {
       ...this._provider.value,
       view: view,
     });
-    setMultipleSearchFilters([
-      ['view', view],
-      ['page', 1],
-      ['pageSize', 10],
-    ]);
+
+    setSearchFilters('view', view);
   }
 
   onSearchValueChange(searchValue) {
@@ -170,6 +165,7 @@ export class EmployeeContextProvider extends LitElement {
       ...this._provider.value,
       searchValue: searchValue,
     });
+
     setMultipleSearchFilters([
       ['search', searchValue],
       ['page', 1],

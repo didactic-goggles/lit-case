@@ -207,7 +207,6 @@ export class EmployeeForm extends LitElement {
   }
 
   onSave(data) {
-    console.log("onSave", data, this);
     if (this.employee) {
       this.openAlertDialog = true;
       this.tempFormData = data;
