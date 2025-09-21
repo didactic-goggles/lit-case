@@ -14,6 +14,7 @@ export class EmployeeCreatePage extends LitElement {
       border-radius: 0.5rem;
       border: 1px solid var(--border);
       height: 100%;
+      box-shadow: var(--card-shadow);
     }
   `;
 

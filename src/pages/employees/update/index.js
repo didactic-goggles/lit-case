@@ -15,6 +15,7 @@ export class EmployeeUpdatePage extends LitElement {
       border-radius: 0.5rem;
       border: 1px solid var(--border);
       height: 100%;
+      box-shadow: var(--card-shadow);
     }
 
     .form-helper-message {
@@ -43,7 +44,6 @@ export class EmployeeUpdatePage extends LitElement {
   }
 
   onAfterEnter(location) {
-    console.log("onAfterEnter", location);
     this.employeeId = location.params[0];
     this.employee = this._employeeContext.value.getEmployee(
       Number(this.employeeId)

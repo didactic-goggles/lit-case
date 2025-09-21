@@ -45,9 +45,9 @@ export class EmployeeCard extends LitElement {
     }
   `;
 
-_employeeContext = new ContextConsumer(this, {
-  context: employeeContext
-});
+  _employeeContext = new ContextConsumer(this, {
+    context: employeeContext,
+  });
 
   static properties = {
     employee: {type: Object},
@@ -115,14 +115,19 @@ _employeeContext = new ContextConsumer(this, {
 
       <div slot="footer">
         <div class="footer">
-          <lit-button variant="secondary" href="/employees/${this.employee.id}">
+          <lit-button
+            variant="solid"
+            color="secondary"
+            href="/employees/update/${this.employee.id}"
+          >
             <lit-icon name="edit"></lit-icon>
 
             <span>${t('components.employeeList.columns.details')}</span>
           </lit-button>
           <lit-button
             @click=${() => this.onEmployeeDeleteClick(this.employee)}
-            variant="primary"
+            variant="solid"
+            color="primary"
           >
             <span>${t('components.employeeList.columns.delete')}</span>
 

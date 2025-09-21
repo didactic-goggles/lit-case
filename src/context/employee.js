@@ -33,7 +33,7 @@ export class EmployeeContextProvider extends LitElement {
       context: employeeContext,
       initialValue: {
         employees: this.employees,
-        viewAs: getSearchFilters('viewAs') || 'table',
+        view: getSearchFilters('view') || 'table',
         selectedEmployee: this.selectedEmployee,
         searchValue: getSearchFilters('search') || '',
         pagination: {
@@ -54,7 +54,7 @@ export class EmployeeContextProvider extends LitElement {
         onDeleteDialogClose: this.onDeleteDialogClose.bind(this),
         onDeleteDialogConfirm: this.onDeleteDialogConfirm.bind(this),
         filterEmployees: this.filterEmployees.bind(this),
-        onViewAsChange: this.onViewAsChange.bind(this),
+        onViewChange: this.onViewChange.bind(this),
         onSearchValueChange: this.onSearchValueChange.bind(this),
         onPageChange: this.onPageChange.bind(this),
       },
@@ -151,15 +151,15 @@ export class EmployeeContextProvider extends LitElement {
     });
   }
 
-  onViewAsChange(viewAs) {
-    if (viewAs === this._provider.value.viewAs) return;
+  onViewChange(view) {
+    if (view === this._provider.value.view) return;
 
     this._provider.setValue({
       ...this._provider.value,
-      viewAs: viewAs,
+      view: view,
     });
     setMultipleSearchFilters([
-      ['viewAs', viewAs],
+      ['view', view],
       ['page', 1],
       ['pageSize', 10],
     ]);

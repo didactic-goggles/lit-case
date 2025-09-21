@@ -50,11 +50,11 @@ export class LitAlertDialog extends LitElement {
 
         <div slot="footer">
           <div class="footer-buttons">
-            <lit-button @click=${this.onConfirm} variant="primary" size="lg"
+            <lit-button @click=${this.onConfirm} variant="solid" color="primary" size="lg"
               >${this.confirmText}</lit-button
             >
 
-            <lit-button @click=${this.onClose} variant="secondary" size="lg"
+            <lit-button @click=${this.onClose} variant="outline" color="secondary" size="lg"
               >${this.closeText}</lit-button
             >
           </div>

@@ -195,7 +195,11 @@ export class EmployeeForm extends LitElement {
   }
 
   onCancelClick() {
-    Router.go(-1);
+    if (this.employee) {
+      window.history.back();
+    } else {
+      Router.go('/');
+    }
   }
 
   onSaveClick() {
@@ -474,11 +478,11 @@ export class EmployeeForm extends LitElement {
       </lit-form>
 
       <div class="buttons">
-        <lit-button variant="primary" @click=${this.onSaveClick}>
+        <lit-button variant="solid" color="primary" @click=${this.onSaveClick}>
           ${t('components.employeesForm.buttonSave')}
         </lit-button>
 
-        <lit-button variant="secondary" @click=${this.onCancelClick}>
+        <lit-button variant="outline" color="secondary" @click=${this.onCancelClick}>
           ${t('components.employeesForm.buttonCancel')}
         </lit-button>
       </div>

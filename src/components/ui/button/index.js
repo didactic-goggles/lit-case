@@ -11,10 +11,12 @@ export class LitButton extends LitElement {
       width: 1rem;
       height: 1rem;
       transition: all 0.3s ease;
-      color: var(--icon-color);
+      color: var(--foreground-color);
     }
 
     :host {
+      --border-color: transparent;
+
       font-family: inherit;
       display: inline-flex;
       align-items: center;
@@ -28,45 +30,50 @@ export class LitButton extends LitElement {
       box-sizing: border-box;
       font-size: 0.875rem;
       transition: all 0.3s ease;
-      border: 2px solid transparent;
+      border: 2px solid var(--border-color);
       box-shadow: 0 1px 2px 0 #0000000d;
       position: relative;
       user-select: none;
-      --icon-color: var(--primary);
     }
 
-    :host([variant='primary']) {
-      border-color: var(--primary);
-      background-color: var(--primary);
-      color: var(--primary-foreground);
-      --icon-color: var(--primary-foreground);
+    :host([variant='solid']) {
+      background-color: var(--background-color);
+      color: var(--color);
     }
 
-    :host([variant='primary']:hover) {
+    :host([variant='solid']:hover) {
+      background-color: var(--background-hover);
+    }
+
+    :host([variant='outline']) {
+      color: var(--background-color);
+    }
+
+    :host([variant='outline']:hover) {
+      background-color: var(--background-hover);
+      color: var(--foreground-color);
+    }
+
+    :host([color='primary']) {
+      --color: var(--primary-foreground);
+      --border-color: var(--primary);
+      --background-color: var(--primary);
+      --foreground-color: var(--primary-foreground);
+    }
+
+    :host([color='primary']:hover) {
       background-color: var(--primary-hover);
-      --icon-color: var(--primary-foreground);
     }
 
-    :host([variant='secondary']) {
-      border-color: var(--secondary);
-      color: var(--secondary);
-      --icon-color: var(--secondary);
+    :host([color='secondary']) {
+      --color: var(--secondary-foreground);
+      --border-color: var(--secondary);
+      --background-color: var(--secondary);
+      --foreground-color: var(--secondary-foreground);
     }
 
-    :host([variant='secondary']:hover) {
+    :host([color='secondary']:hover) {
       background-color: var(--secondary-hover);
-      color: var(--secondary-foreground);
-      --icon-color: var(--secondary-foreground);
-    }
-
-    :host([variant='destructive']) {
-      border-color: var(--destructive);
-      background-color: var(--destructive);
-      color: var(--destructive-foreground);
-    }
-
-    :host([variant='destructive']:hover) {
-      background-color: var(--destructive-hover);
     }
 
     :host([variant='ghost']) {
@@ -97,7 +104,7 @@ export class LitButton extends LitElement {
     }
 
     :host([disabled]) {
-      --icon-color: var(--muted) !important;
+      --foreground-color: var(--muted) !important;
       opacity: 0.5;
       pointer-events: none;
     }
@@ -109,11 +116,11 @@ export class LitButton extends LitElement {
     }
 
     :host([variant='ghost'][size='icon']) {
-      --icon-color: var(--primary);
+      --foreground-color: var(--primary);
     }
 
     :host([variant='ghost'][size='icon']:hover) {
-      --icon-color: var(--primary-foreground);
+      --foreground-color: var(--primary-foreground);
     }
 
     a {
@@ -140,6 +147,7 @@ export class LitButton extends LitElement {
   static properties = {
     type: {type: String, attribute: 'type'},
     loading: {type: Boolean, attribute: 'loading'},
+    color: {type: String, attribute: 'color'},
     variant: {type: String, attribute: 'variant'},
     href: {type: String, attribute: 'href'},
     size: {type: String, attribute: 'size'},

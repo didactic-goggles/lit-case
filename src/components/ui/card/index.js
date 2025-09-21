@@ -10,7 +10,7 @@ export class LitCard extends LitElement {
       background-color: var(--card);
       border-radius: 0.5rem;
       border: 1px solid var(--border);
-      box-shadow: 0 1px 2px 0 #0000000d;
+      box-shadow: var(--card-shadow);
     }
   `;
 

@@ -115,7 +115,7 @@ export class EmployeeList extends LitElement {
   }
 
   onToggleGroupChange(event) {
-    this._employeeContext.value.onViewAsChange(event.detail.value);
+    this._employeeContext.value.onViewChange(event.detail.value);
   }
 
   onEmployeeDeleteClick(employee) {
@@ -128,7 +128,7 @@ export class EmployeeList extends LitElement {
 
   renderListViewToggleGroup() {
     return html`<lit-toggle-group
-      .value=${this._employeeContext.value.viewAs}
+      .value=${this._employeeContext.value.view}
       .options=${this.toggleGroupOptions}
       @change=${this.onToggleGroupChange}
     ></lit-toggle-group>`;
@@ -140,7 +140,7 @@ export class EmployeeList extends LitElement {
 
   render() {
     return html`
-      ${this._employeeContext.value.viewAs === 'table'
+      ${this._employeeContext.value.view === 'table'
         ? html`<lit-table
             .data=${this.data}
             .columns=${this.columns}
