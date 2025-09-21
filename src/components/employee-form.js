@@ -195,7 +195,7 @@ export class EmployeeForm extends LitElement {
   }
 
   onCancelClick() {
-    console.log('onCancelClick');
+    Router.go(-1);
   }
 
   onSaveClick() {
@@ -224,7 +224,8 @@ export class EmployeeForm extends LitElement {
       id: this.employee.id,
     });
 
-    Router.go('/');
+    // Router.go(-1);
+    window.history.back();
   }
 
   render() {

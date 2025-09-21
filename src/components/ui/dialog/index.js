@@ -1,18 +1,12 @@
 import {LitElement, html, css} from 'lit';
 
 export class LitDialog extends LitElement {
-  static properties = {
-    open: {type: Boolean, attribute: 'open'},
-    size: {type: String, attribute: 'size'},
-    hideHeader: {type: Boolean, attribute: 'hide-header'},
-  };
-
   static styles = css`
-  :host {
-    --close-btn-size: 32px;
-    --padding-x: 1rem;
-    --padding-y: 1rem;
-  }
+    :host {
+      --padding-x: 1rem;
+      --padding-y: 1rem;
+      --close-btn-size: 2rem;
+    }
 
     dialog {
       position: relative;
@@ -22,6 +16,10 @@ export class LitDialog extends LitElement {
       width: 100%;
       max-height: 90vh;
       box-shadow: 0 10px 15px 3px rgba(0, 0, 0, 0.2);
+    }
+
+    dialog:focus-visible {
+      outline: none;
     }
 
     dialog[size='sm'] {
@@ -57,25 +55,16 @@ export class LitDialog extends LitElement {
     .close-btn {
       width: var(--close-btn-size);
       height: var(--close-btn-size);
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 0.25rem;
-      border-radius: 4px;
       color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    }
+
+    .close-btn:hover {
+      color: var(--primary-foreground);
     }
 
     .close-btn lit-icon {
       width: var(--close-btn-size);
       height: var(--close-btn-size);
-    }
-
-    .close-btn:hover {
-      color: var(--primary-hover);
     }
 
     .close-btn:focus {
@@ -97,6 +86,12 @@ export class LitDialog extends LitElement {
       width: 100%;
     }
   `;
+
+  static properties = {
+    open: {type: Boolean, attribute: 'open'},
+    size: {type: String, attribute: 'size'},
+    hideHeader: {type: Boolean, attribute: 'hide-header'},
+  };
 
   constructor() {
     super();
@@ -139,15 +134,22 @@ export class LitDialog extends LitElement {
         @close=${this.onClose}
         size=${this.size}
       >
-        ${!this.hideHeader ?
-        html`
-          <div class="dialog-header">
-            <h2 id="dialog-title"><slot name="title"></slot></h2>
-            <button class="close-btn" @click=${this.onClose}>
-              <lit-icon name="x" size="32"></lit-icon>
-            </button>
-          </div>
-        ` : html``}
+        ${!this.hideHeader
+          ? html`
+              <div class="dialog-header">
+                <h2 id="dialog-title"><slot name="title"></slot></h2>
+
+                <lit-button
+                  class="close-btn"
+                  @click=${this.onClose}
+                  variant="ghost"
+                  size="icon"
+                >
+                  <lit-icon name="x" size="32"></lit-icon>
+                </lit-button>
+              </div>
+            `
+          : html``}
 
         <div class="dialog-content">
           <slot name="content"></slot>

@@ -73,7 +73,7 @@ export class EmployeeList extends LitElement {
         header: t('components.employeeList.columns.actions'),
         cell: (row) =>
           html`<lit-button
-              variant="text"
+              variant="ghost"
               size="icon"
               href="/employees/update/${row.id}"
             >
@@ -85,7 +85,7 @@ export class EmployeeList extends LitElement {
             </lit-button>
             <lit-button
               @click=${() => this.onEmployeeDeleteClick(row)}
-              variant="text"
+              variant="ghost"
               size="icon"
             >
               <span class="sr-only"
@@ -139,7 +139,6 @@ export class EmployeeList extends LitElement {
   }
 
   render() {
-    console.log('render', this._employeeContext.value);
     return html`
       ${this._employeeContext.value.viewAs === 'table'
         ? html`<lit-table

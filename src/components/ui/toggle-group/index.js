@@ -57,9 +57,8 @@ export class LitToggleGroup extends LitElement {
       ${this.options.map(
         (option) => html`
           <lit-button
-            ?selected=${this.value === option.value}
+            ?active=${this.value === option.value}
             @click=${() => this.handleOptionClick(option.value)}
-            variant="input"
           >
             ${option.label
               ? option.label

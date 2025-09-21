@@ -18,6 +18,10 @@ const tr = {
       message: 'Built with ❤️ by Dijwar Bozyel',
     },
   },
+  notFound: {
+    title: 'Sayfa Bulunamadı',
+    button: 'Ana Sayfaya Dön',
+  },
   components: {
     employeeList: {
       searchPlaceholder: 'Çalışan Ara',

@@ -10,6 +10,8 @@ export class LitButton extends LitElement {
     ::slotted(lit-icon) {
       width: 1rem;
       height: 1rem;
+      transition: all 0.3s ease;
+      color: var(--icon-color);
     }
 
     :host {
@@ -30,26 +32,31 @@ export class LitButton extends LitElement {
       box-shadow: 0 1px 2px 0 #0000000d;
       position: relative;
       user-select: none;
+      --icon-color: var(--primary);
     }
 
     :host([variant='primary']) {
       border-color: var(--primary);
       background-color: var(--primary);
       color: var(--primary-foreground);
+      --icon-color: var(--primary-foreground);
     }
 
     :host([variant='primary']:hover) {
       background-color: var(--primary-hover);
+      --icon-color: var(--primary-foreground);
     }
 
     :host([variant='secondary']) {
       border-color: var(--secondary);
       color: var(--secondary);
+      --icon-color: var(--secondary);
     }
 
     :host([variant='secondary']:hover) {
       background-color: var(--secondary-hover);
       color: var(--secondary-foreground);
+      --icon-color: var(--secondary-foreground);
     }
 
     :host([variant='destructive']) {
@@ -90,6 +97,7 @@ export class LitButton extends LitElement {
     }
 
     :host([disabled]) {
+      --icon-color: var(--muted) !important;
       opacity: 0.5;
       pointer-events: none;
     }
@@ -97,6 +105,15 @@ export class LitButton extends LitElement {
     :host([active]) {
       background-color: var(--primary);
       color: var(--primary-foreground);
+      --icon-color: var(--primary-foreground);
+    }
+
+    :host([variant='ghost'][size='icon']) {
+      --icon-color: var(--primary);
+    }
+
+    :host([variant='ghost'][size='icon']:hover) {
+      --icon-color: var(--primary-foreground);
     }
 
     a {
@@ -140,6 +157,7 @@ export class LitButton extends LitElement {
   render() {
     return html`
       <slot></slot>
+
       ${this.href ? html`<a href=${this.href}></a>` : ''}
     `;
   }

@@ -2,6 +2,7 @@ import {Router} from '@vaadin/router';
 import '../pages/employees/index.js';
 import '../pages/employees/create/index.js';
 import '../pages/employees/update/index.js';
+import '../pages/not-found/index.js';
 
 const routes = [
   {
@@ -13,8 +14,12 @@ const routes = [
     component: 'lit-employee-create-page',
   },
   {
-    path: '/employees/update/:id',
+    path: '/employees/update/(\\d+)',
     component: 'lit-employee-update-page',
+  },
+  {
+    path: '(.*)',
+    component: 'lit-not-found-page',
   },
 ];
 

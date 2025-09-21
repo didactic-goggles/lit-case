@@ -43,7 +43,8 @@ export class EmployeeUpdatePage extends LitElement {
   }
 
   onAfterEnter(location) {
-    this.employeeId = location.params.id;
+    console.log("onAfterEnter", location);
+    this.employeeId = location.params[0];
     this.employee = this._employeeContext.value.getEmployee(
       Number(this.employeeId)
     );

@@ -5,6 +5,7 @@ export class LitMain extends LitElement {
   static styles = css`
     :host {
       flex: 1;
+      padding: 1rem 0;
     }
 
     .container {
