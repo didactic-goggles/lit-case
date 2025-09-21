@@ -39,6 +39,7 @@ export class LitFooter extends LitElement {
 
     .footer-top {
       display: flex;
+      align-items: center;
       justify-content: space-between;
       color: var(--muted);
       font-size: 0.875rem;
