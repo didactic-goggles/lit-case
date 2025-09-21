@@ -172,6 +172,11 @@ export class EmployeeContextProvider extends LitElement {
     this._provider.setValue({
       ...this._provider.value,
       searchValue: searchValue,
+      pagination: {
+        page: 1,
+        pageSize: 10,
+        totalPages: 1,
+      },
     });
 
     setMultipleSearchFilters([
