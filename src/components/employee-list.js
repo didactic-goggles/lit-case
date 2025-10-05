@@ -126,6 +126,14 @@ export class EmployeeList extends LitElement {
     this._employeeContext.value.onPageChange(event.detail.page);
   }
 
+  onAllCheckboxChange(event) {
+    this._employeeContext.value.onAllCheckboxChange(event.detail.value);
+  }
+
+  onCheckboxChange(event) {
+    this._employeeContext.value.onCheckboxChange(event.detail.value, event.detail.employeeId);
+  }
+
   renderListViewToggleGroup() {
     return html`<lit-toggle-group
       .value=${this._employeeContext.value.view}
@@ -158,6 +166,10 @@ export class EmployeeList extends LitElement {
             .page=${this._employeeContext.value.pagination.page}
             .totalPages=${this._employeeContext.value.pagination.totalPages}
             @page-change=${this.onPageChange}
+            @all-checkbox-change=${this.onAllCheckboxChange}
+            @checkbox-change=${this.onCheckboxChange}
+            .allSelected=${this._employeeContext.value.allSelected}
+            .selectedItems=${this._employeeContext.value.selectedEmployees}
           >
             <div slot="header-actions">${this.renderListViewToggleGroup()}</div>
           </lit-table> `

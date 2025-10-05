@@ -41,8 +41,28 @@ export class LitCheckbox extends LitElement {
       background-color: var(--input-hover);
     }
   `;
+
+  static properties = {
+    checked: {type: Boolean, attribute: 'checked'},
+  };
+
+  constructor() {
+    super();
+    this.checked = false;
+  }
+
+  onChange(event) {
+    this.dispatchEvent(
+      new CustomEvent('change', {detail: {value: event.target.checked}})
+    );
+  }
+
   render() {
-    return html`<input type="checkbox" />`;
+    return html`<input
+      type="checkbox"
+      @change=${this.onChange}
+      .checked=${this.checked}
+    />`;
   }
 }
 

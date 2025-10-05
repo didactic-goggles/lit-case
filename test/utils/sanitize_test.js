@@ -10,7 +10,6 @@ suite('sanitizeText', () => {
     const text = '<script>alert("Hello, world!");</script>';
     const expected = '';
     const result = sanitizeText(text);
-    console.log("result", result);
     assert.equal(result, expected);
   });
 });

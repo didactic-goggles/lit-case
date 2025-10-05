@@ -53,6 +53,8 @@ export class EmployeeContextProvider extends LitElement {
             ? Number(getSearchFilters('totalPages'))
             : 1,
         },
+        selectedEmployees: [],
+        allSelected: false,
         addEmployee: this.addEmployee.bind(this),
         updateEmployee: this.updateEmployee.bind(this),
         deleteEmployee: this.deleteEmployee.bind(this),
@@ -65,6 +67,8 @@ export class EmployeeContextProvider extends LitElement {
         onViewChange: this.onViewChange.bind(this),
         onSearchValueChange: this.onSearchValueChange.bind(this),
         onPageChange: this.onPageChange.bind(this),
+        onAllCheckboxChange: this.onAllCheckboxChange.bind(this),
+        onCheckboxChange: this.onCheckboxChange.bind(this),
       },
     });
 
@@ -127,6 +131,8 @@ export class EmployeeContextProvider extends LitElement {
       filteredEmployees.length / currentValue.pagination.pageSize
     );
     this._provider.value.employees = this.employees;
+    this._provider.value.allSelected = false;
+    this._provider.value.selectedEmployees = [];
   }
 
   onOpenDeleteDialog(employee) {
@@ -199,6 +205,38 @@ export class EmployeeContextProvider extends LitElement {
     setSearchFilters('page', page);
 
     this.filterEmployees();
+  }
+
+  onAllCheckboxChange(checked) {
+    this._provider.setValue({
+      ...this._provider.value,
+      allSelected: checked,
+      selectedEmployees: checked
+        ? this.employees.map((employee) => employee.id)
+        : [],
+    });
+  }
+
+  onCheckboxChange(checked, employeeId) {
+    const newSelectedEmployees = checked
+      ? [...this._provider.value.selectedEmployees, employeeId]
+      : this._provider.value.selectedEmployees.filter(
+          (id) => id !== employeeId
+        );
+
+    if (newSelectedEmployees.length === this.employees.length) {
+      this._provider.setValue({
+        ...this._provider.value,
+        selectedEmployees: [...newSelectedEmployees],
+        allSelected: true,
+      });
+    } else {
+      this._provider.setValue({
+        ...this._provider.value,
+        selectedEmployees: [...newSelectedEmployees],
+        allSelected: false,
+      });
+    }
   }
 
   render() {

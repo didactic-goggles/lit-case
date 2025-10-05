@@ -77,6 +77,10 @@ export class Table extends LitElement {
     searchPlaceholder: {type: String},
     page: {type: Number},
     totalPages: {type: Number},
+    allSelected: {type: Boolean},
+    selectedItems: {
+      type: Array,
+    },
   };
 
   constructor() {
@@ -120,6 +124,22 @@ export class Table extends LitElement {
     );
   }
 
+  _handleAllCheckboxChange(event) {
+    this.dispatchEvent(
+      new CustomEvent('all-checkbox-change', {
+        detail: {value: event.detail.value},
+      })
+    );
+  }
+
+  _handleCheckboxChange(employeeId, event) {
+    this.dispatchEvent(
+      new CustomEvent('checkbox-change', {
+        detail: {value: event.detail.value, employeeId: employeeId},
+      })
+    );
+  }
+
   render() {
     return html`
       <lit-table-header
@@ -141,7 +161,12 @@ export class Table extends LitElement {
                   (column) => column.id,
                   (column) =>
                     column.id === 'checkbox'
-                      ? html`<th><lit-checkbox></lit-checkbox></th>`
+                      ? html`<th>
+                          <lit-checkbox
+                            @change=${this._handleAllCheckboxChange}
+                            .checked=${this.allSelected}
+                          ></lit-checkbox>
+                        </th>`
                       : html`<th>${column.header}</th>`
                 )}
               </tr>
@@ -163,7 +188,15 @@ export class Table extends LitElement {
                           (column) => column.id,
                           (column) => html`<td>
                             ${column.id === 'checkbox'
-                              ? html`<lit-checkbox></lit-checkbox>`
+                              ? html`<lit-checkbox
+                                  .checked=${this.selectedItems.includes(
+                                    row.id
+                                  )}
+                                  @change=${this._handleCheckboxChange.bind(
+                                    this,
+                                    row.id
+                                  )}
+                                ></lit-checkbox>`
                               : column.cell
                               ? column.cell(
                                   this.getCellData(
