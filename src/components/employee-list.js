@@ -1,8 +1,9 @@
-import {LitElement, html} from 'lit';
+import {LitElement, css, html} from 'lit';
 import {t, updateWhenLocaleChanges} from '../utils/i18n.js';
 import {ContextConsumer} from '@lit/context';
 import {employeeContext} from '../context/employee.js';
 import {formatDate} from '../utils/format-date.js';
+import './ui/button/index.js';
 import './ui/table/index.js';
 import './ui/toggle-group/index.js';
 import './ui/alert-dialog/index.js';
@@ -12,6 +13,13 @@ import './ui/card/index.js';
 import './employee-card.js';
 
 export class EmployeeList extends LitElement {
+  static styles = css`
+    div {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+  `;
   _employeeContext = new ContextConsumer(this, {
     context: employeeContext,
     subscribe: true,
@@ -119,7 +127,7 @@ export class EmployeeList extends LitElement {
   }
 
   onEmployeeDeleteClick(employee) {
-    this._employeeContext.value.onOpenDeleteDialog(employee);
+    this._employeeContext.value.onSingleDeleteDialogOpen(employee);
   }
 
   onPageChange(event) {
@@ -131,7 +139,10 @@ export class EmployeeList extends LitElement {
   }
 
   onCheckboxChange(event) {
-    this._employeeContext.value.onCheckboxChange(event.detail.value, event.detail.employeeId);
+    this._employeeContext.value.onCheckboxChange(
+      event.detail.value,
+      event.detail.employeeId
+    );
   }
 
   renderListViewToggleGroup() {
@@ -140,6 +151,23 @@ export class EmployeeList extends LitElement {
       .options=${this.toggleGroupOptions}
       @change=${this.onToggleGroupChange}
     ></lit-toggle-group>`;
+  }
+
+  renderDeleteButton() {
+    if (this._employeeContext.value.selectedEmployees.length === 0) {
+      return null;
+    }
+
+    return html`
+      <lit-button
+        variant="solid"
+        color="primary"
+        @click=${() => this._employeeContext.value.onMultipleDeleteClick()}
+        >${this._employeeContext.value.selectedEmployees.length > 1
+          ? t('components.employeeList.deleteAll')
+          : t('components.employeeList.delete')}</lit-button
+      >
+    `;
   }
 
   renderCardGrid(item) {
@@ -171,7 +199,9 @@ export class EmployeeList extends LitElement {
             .allSelected=${this._employeeContext.value.allSelected}
             .selectedItems=${this._employeeContext.value.selectedEmployees}
           >
-            <div slot="header-actions">${this.renderListViewToggleGroup()}</div>
+            <div slot="header-actions">
+              ${this.renderDeleteButton()} ${this.renderListViewToggleGroup()}
+            </div>
           </lit-table> `
         : html`<lit-card-grid
             .data=${this.data}

@@ -25,6 +25,8 @@ const tr = {
   components: {
     employeeList: {
       searchPlaceholder: 'Çalışan Ara',
+      delete: "Sil",
+      deleteAll: "Hepsini Sil",
       columns: {
         firstName: 'Ad',
         lastName: 'Soyad',
@@ -43,6 +45,8 @@ const tr = {
       title: 'Emin misiniz?',
       message:
         '{firstName} {lastName} adlı çalışanı silmek istediğinize emin misiniz?',
+      messageMultiple:
+        '{count} adet çalışanı silmek istediğinize emin misiniz?',
       buttonSave: 'Sil',
     },
     employeesForm: {

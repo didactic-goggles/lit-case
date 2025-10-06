@@ -60,7 +60,8 @@ export class EmployeeContextProvider extends LitElement {
         deleteEmployee: this.deleteEmployee.bind(this),
         getEmployee: this.getEmployee.bind(this),
         openDeleteDialog: this.openDeleteDialog,
-        onOpenDeleteDialog: this.onOpenDeleteDialog.bind(this),
+        onSingleDeleteDialogOpen: this.onSingleDeleteDialogOpen.bind(this),
+        onMultipleDeleteClick: this.onMultipleDeleteClick.bind(this),
         onDeleteDialogClose: this.onDeleteDialogClose.bind(this),
         onDeleteDialogConfirm: this.onDeleteDialogConfirm.bind(this),
         filterEmployees: this.filterEmployees.bind(this),
@@ -135,7 +136,7 @@ export class EmployeeContextProvider extends LitElement {
     this._provider.value.selectedEmployees = [];
   }
 
-  onOpenDeleteDialog(employee) {
+  onSingleDeleteDialogOpen(employee) {
     this._provider.setValue({
       ...this._provider.value,
       selectedEmployee: employee,
@@ -143,6 +144,14 @@ export class EmployeeContextProvider extends LitElement {
     });
 
     this.requestUpdate();
+  }
+
+  onMultipleDeleteClick() {
+    this._provider.setValue({
+      ...this._provider.value,
+      selectedEmployee: null,
+      openDeleteDialog: true,
+    });
   }
 
   onDeleteDialogClose() {
@@ -154,11 +163,19 @@ export class EmployeeContextProvider extends LitElement {
   }
 
   onDeleteDialogConfirm() {
-    this.deleteEmployee(this._provider.value.selectedEmployee.id);
+    if (this._provider.value.selectedEmployee) {
+      this.deleteEmployee(this._provider.value.selectedEmployee.id);
+    } else {
+      this._provider.value.selectedEmployees.forEach((employeeId) => {
+        this.deleteEmployee(employeeId);
+      });
+    }
 
     this._provider.setValue({
       ...this._provider.value,
       selectedEmployee: null,
+      selectedEmployees: [],
+      allSelected: false,
       openDeleteDialog: false,
     });
   }

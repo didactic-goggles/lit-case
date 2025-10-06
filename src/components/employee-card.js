@@ -112,7 +112,7 @@ export class EmployeeCard extends LitElement {
   }
 
   onEmployeeDeleteClick() {
-    this._employeeContext.value.onOpenDeleteDialog(this.employee);
+    this._employeeContext.value.onSingleDeleteDialogOpen(this.employee);
   }
 
   render() {

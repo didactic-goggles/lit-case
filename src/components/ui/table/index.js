@@ -164,7 +164,7 @@ export class Table extends LitElement {
                       ? html`<th>
                           <lit-checkbox
                             @change=${this._handleAllCheckboxChange}
-                            .checked=${this.allSelected}
+                            ?checked=${this.allSelected}
                           ></lit-checkbox>
                         </th>`
                       : html`<th>${column.header}</th>`
@@ -189,7 +189,7 @@ export class Table extends LitElement {
                           (column) => html`<td>
                             ${column.id === 'checkbox'
                               ? html`<lit-checkbox
-                                  .checked=${this.selectedItems.includes(
+                                  ?checked=${this.selectedItems.includes(
                                     row.id
                                   )}
                                   @change=${this._handleCheckboxChange.bind(

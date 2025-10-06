@@ -5,6 +5,7 @@
  */
 
 import {legacyPlugin} from '@web/dev-server-legacy';
+import fs from 'fs';
 
 const mode = process.env.MODE || 'dev';
 if (!['dev', 'prod'].includes(mode)) {
@@ -21,5 +22,21 @@ export default {
         webcomponents: false,
       },
     }),
+  ],
+  middleware: [
+    function spaFallback(context, next) {
+      if (
+        context.request.method === 'GET' &&
+        !context.path.startsWith('/node_modules') &&
+        !context.path.startsWith('/public') &&
+        !context.path.includes('.')
+      ) {
+        context.response.status = 200;
+        context.response.set('Content-Type', 'text/html');
+        context.response.body = fs.readFileSync('index.html', 'utf-8');
+        return;
+      }
+      return next();
+    },
   ],
 };

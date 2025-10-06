@@ -25,6 +25,8 @@ const en = {
   components: {
     employeeList: {
       searchPlaceholder: 'Search Employee',
+      delete: "Delete",
+      deleteAll: "Delete All",
       columns: {
         firstName: 'First Name',
         lastName: 'Last Name',
@@ -42,6 +44,7 @@ const en = {
     employeeDeleteAlertDialog: {
       title: 'Are you sure?',
       message: 'Selected Employee record of {firstName} {lastName} will be deleted',
+      messageMultiple: 'Do you want to delete {count} employees?',
       buttonSave: 'Delete',
     },
     employeesForm: {

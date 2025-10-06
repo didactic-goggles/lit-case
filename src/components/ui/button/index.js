@@ -160,7 +160,7 @@ export class LitButton extends LitElement {
     super();
     this.type = 'button';
     this.loading = false;
-    this.variant = 'primary';
+    this.variant = 'solid';
     this.size = '';
   }
 

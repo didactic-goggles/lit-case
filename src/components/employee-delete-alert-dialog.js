@@ -18,15 +18,27 @@ export class EmployeeDeleteAlertDialog extends LitElement {
     this._employeeContext.value.onDeleteDialogConfirm();
   }
 
+  get alertDialogMessage() {
+    const selectedEmployee = this._employeeContext.value.selectedEmployee;
+    if (selectedEmployee) {
+      return t('components.employeeDeleteAlertDialog.message', {
+        firstName: selectedEmployee.firstName,
+        lastName: selectedEmployee.lastName,
+      });
+    } else {
+      const count = this._employeeContext.value.selectedEmployees.length;
+      return t('components.employeeDeleteAlertDialog.messageMultiple', {
+        count: count,
+      });
+    }
+  }
+
   render() {
     return html`
       <lit-alert-dialog
         .open=${this._employeeContext.value.openDeleteDialog}
         .title=${t('components.employeeDeleteAlertDialog.title')}
-        .message=${t('components.employeeDeleteAlertDialog.message', {
-          firstName: this._employeeContext.value.selectedEmployee?.firstName,
-          lastName: this._employeeContext.value.selectedEmployee?.lastName,
-        })}
+        .message=${this.alertDialogMessage}
         .confirmText=${t('components.employeeDeleteAlertDialog.buttonSave')}
         @close=${this.onDeleteDialogClose}
         @confirm=${this.onDeleteDialogConfirm}

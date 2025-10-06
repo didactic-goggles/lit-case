@@ -43,7 +43,7 @@ export class LitLanguageSwitcher extends LitElement {
 
   render() {
     return html` <img
-        .src=${`../../public/assets/flags/${localeManager.getCurrentLocale()}.svg`}
+        .src=${`/public/assets/flags/${localeManager.getCurrentLocale()}.svg`}
         alt=${localeManager.getCurrentLocale()}
         width="24"
         height="24"

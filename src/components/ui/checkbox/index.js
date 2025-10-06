@@ -43,7 +43,7 @@ export class LitCheckbox extends LitElement {
   `;
 
   static properties = {
-    checked: {type: Boolean, attribute: 'checked'},
+    checked: {type: Boolean},
   };
 
   constructor() {
